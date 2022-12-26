@@ -1,0 +1,46 @@
+.songcard{
+    animation: anim linear .7s;
+}
+
+@keyframes anim{
+    0%{
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    
+    50%{
+        opacity: 1;
+        transform: translateY(25px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.image-container{
+    position: relative;
+}
+
+.image-container i{
+    display:none;
+    position: absolute;
+    font-size: 3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.image-container img{
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.image-container img:hover{
+    opacity: .5;
+}
+
+.image-container img:hover + i{
+    display: inline-block;
+}
