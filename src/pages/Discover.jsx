@@ -54,7 +54,7 @@ const Discover = () => {
       </div>
 
       <div className="row g-4">
-        {discoverData.map((item) => (
+        {discoverData?.map((item) => (
           <SongCard
             key={item.key}
             title={item.title}
