@@ -1,9 +1,13 @@
 // import { genres } from "../constants.js";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import SongCard from "../components/SongCard";
+import { playerSliceActions } from "../store/store";
 
 let discoverData = JSON.parse(localStorage.getItem("globalChartsData"));
 const Discover = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchWorldCharts = async () => {
       const options = {
@@ -28,7 +32,9 @@ const Discover = () => {
 
     if (!globalChartsData) fetchWorldCharts();
     else discoverData = JSON.parse(globalChartsData);
-  }, []);
+
+    dispatch(playerSliceActions.setCurrentSongs(globalChartsData));
+  }, [dispatch]);
 
   // fetchWorldCharts();
 
@@ -60,6 +66,7 @@ const Discover = () => {
             title={item.title}
             subtitle={item.subtitle}
             image={item.images?.coverart}
+            songData={item}
           />
         ))}
       </div>

@@ -18,11 +18,6 @@
     }
 }
 
-.truncate{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 .image-container{
     position: relative;

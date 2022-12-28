@@ -1,12 +1,15 @@
 import Audio from "./Audio";
+import Controls from "./Controls";
+import classes from './Player.module.css';
+import Track from "./Track";
 
 const Player = () => {
   return (
     <div
-      className="d-flex bg-white rounded-top-4 bg-opacity-50 fixed-bottom justify-content-center align-items-center"
-      style={{ height: "100px" }}
+      className={`row rounded-top-4 fixed-bottom ${classes.player}`}
     >
-      <i className="bi bi-play-circle-fill fs-1 text-white"></i>
+      <Track />
+      <Controls />
       <Audio />
     </div>
   );

@@ -1,0 +1,13 @@
+.track img{
+    animation: spin linear infinite 4s;
+}
+
+@keyframes spin {
+    from{
+        transform: rotateZ(0deg);
+    }
+
+    to{
+        transform: rotateZ(360deg);
+    }
+}
