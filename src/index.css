@@ -13,7 +13,17 @@ code {
     monospace;
 }
 
-i, input[type="range"]{
+i{
+  cursor: pointer;
+  color: white;
+  transition: all .2s;
+}
+
+i:hover{
+  color: lightgray;
+}
+
+input[type="range"]{
   cursor: pointer;
   outline: none;
 }

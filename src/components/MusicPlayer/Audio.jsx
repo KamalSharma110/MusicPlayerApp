@@ -11,7 +11,7 @@ const Audio = (props) => {
 
   // ref.current.volume = 0.2;
   // console.log("current time " + ref.current?.currentTime);
-  // console.log("duration " + ref.current?.duration);
+  // console.log(ref.current?.loop);
 
   return (
     <audio
