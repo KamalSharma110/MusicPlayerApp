@@ -1,26 +1,37 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-let prevVolume;
+let prevVolume, audioElement, volumeElement;
 const VolumeBar = () => {
   const [isMute, setIsMute] = useState(false);
-  const volumeInput = document.getElementById("volume");
-  const audioElement = document.getElementById("audio");
+
+  useEffect(()=>{
+    audioElement = document.getElementById("audio");
+    volumeElement = document.getElementById("volume");
+    audioElement.volume = volumeElement.value = 0.02;
+  }, []);
 
   const toggleMute = (isMute) => {
     if (isMute) {
-      prevVolume = volumeInput.value;
-      audioElement.volume = volumeInput.value = 0;
+      prevVolume = volumeElement.value;
+      audioElement.volume = volumeElement.value = 0;
     } else {
-        audioElement.volume = volumeInput.value = prevVolume;
+      audioElement.volume = volumeElement.value = prevVolume;
     }
   };
+
+  const changeHandler = () => {
+    audioElement.volume = volumeElement.value;
+    if(volumeElement.value === '0') setIsMute(true);
+    else setIsMute(false);
+  }
+
 
   return (
     <div className="col-4 align-items-center justify-content-end d-flex pe-5">
       <i
         className={`bi bi-volume-${
           isMute ? "mute" : "up"
-        }-fill fs-3 text-white`}
+        }-fill fs-3`}
         onClick={() => {
           toggleMute(!isMute); //we can put it after setIsMute also
           setIsMute(!isMute);
@@ -33,10 +44,10 @@ const VolumeBar = () => {
         min="0.0"
         max="1.0"
         step="0.01"
-        onChange={() => (audioElement.volume = volumeInput.value)}
+        onChange={changeHandler}
       />
     </div>
   );
 };
 
-export default VolumeBar;
+export default React.memo(VolumeBar);

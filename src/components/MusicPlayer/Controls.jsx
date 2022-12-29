@@ -1,24 +1,52 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {playerSliceActions} from '../../store/store.js';
-import SeekBar from "./SeekBar.jsx";
+import { playerSliceActions } from "../../store/store.js";
 
-const Controls = (props) => {
+const Controls = () => {
   const isPlaying = useSelector((state) => state.isPlaying);
-    const dispatch = useDispatch();
+  const isShuffling = useSelector((state) => state.isShuffling);
+  const dispatch = useDispatch();
+  const [isLooping, setIsLooping] = useState(false);
 
-    const handlePlayPause = () => {
-        dispatch(playerSliceActions.playPause());
-    }
+  const handlePlayPause = () => {
+    dispatch(playerSliceActions.playPause());
+  };
+
+  const handlePrevSong = () => {
+    dispatch(playerSliceActions.prevSong());
+  };
+
+  const handleNextSong = () => {
+    dispatch(playerSliceActions.nextSong());
+  };
+
+  const handleShuffle = () => dispatch(playerSliceActions.toggleShuffling());
 
   return (
-    <div className="col-4 d-flex flex-column">
+    <div className="d-flex justify-content-evenly align-items-center px-3">
+      <i
+        className={`bi bi-repeat${isLooping ? "-1" : ""} fs-5`}
+        onClick={() => {
+          document.getElementById("audio").loop = !isLooping;
+          setIsLooping(!isLooping);
+        }}
+      ></i>
+
+      <i className="bi bi-skip-start-fill fs-3" onClick={handlePrevSong}></i>
+
       <i
         className={`bi bi-${
           isPlaying ? "pause" : "play"
-        }-fill fs-1 text-white align-self-center`}
+        }-fill fs-1 align-self-center`}
         onClick={handlePlayPause}
       ></i>
-      <SeekBar duration={props.duration} currentTime={props.currentTime}/>
+
+      <i className="bi bi-skip-end-fill fs-3" onClick={handleNextSong}></i>
+
+      <i
+        className={`bi bi-shuffle fs-5 ${isShuffling ? "text-primary" : ""}`}
+        onClick={handleShuffle}
+      ></i>
     </div>
   );
 };

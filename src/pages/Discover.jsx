@@ -1,12 +1,15 @@
 // import { genres } from "../constants.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import SongCard from "../components/SongCard";
 import { playerSliceActions } from "../store/store";
 
-let discoverData = JSON.parse(localStorage.getItem("globalChartsData"));
+
+
 const Discover = () => {
   const dispatch = useDispatch();
+  const [discoverData, setDiscoverData] = useState([]);
+  dispatch(playerSliceActions.setCurrentSongs(discoverData));
 
   useEffect(() => {
     const fetchWorldCharts = async () => {
@@ -25,18 +28,18 @@ const Discover = () => {
       );
       const data = await response.json();
       localStorage.setItem("globalChartsData", JSON.stringify(data));
-      console.log(data);
     };
 
-    const globalChartsData = localStorage.getItem("globalChartsData");
+    const globalChartsData = JSON.parse(
+      localStorage.getItem("globalChartsData")
+    );
 
     if (!globalChartsData) fetchWorldCharts();
-    else discoverData = JSON.parse(globalChartsData);
 
-    dispatch(playerSliceActions.setCurrentSongs(globalChartsData));
-  }, [dispatch]);
-
-  // fetchWorldCharts();
+    setDiscoverData(
+      globalChartsData.map((item, index) => ({ ...item, index }))
+    );
+  }, [dispatch, setDiscoverData]);
 
   return (
     <section className="container">
@@ -58,17 +61,23 @@ const Discover = () => {
           </ul>
         </div>
       </div>
-
       <div className="row g-4">
-        {discoverData?.map((item) => (
-          <SongCard
-            key={item.key}
-            title={item.title}
-            subtitle={item.subtitle}
-            image={item.images?.coverart}
-            songData={item}
-          />
-        ))}
+        {
+          (discoverData.map((item) => {
+            if (!item.artists) return "";
+
+            return (
+              <SongCard
+                key={item.key}
+                title={item.title}
+                subtitle={item.subtitle}
+                image={item.images?.coverart}
+                songData={item}
+              />
+            );
+          }))
+        }
+        
       </div>
     </section>
   );
