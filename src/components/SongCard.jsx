@@ -10,7 +10,7 @@ const SongCard = (props) => {
 
   const handleClick = () => {
     if (isActive) dispatch(playerSliceActions.playPause());
-    else dispatch(playerSliceActions.setActiveSong(props.songData));
+    else dispatch(playerSliceActions.setActiveSong({...props.songData, index: props.index}));
   };
 
   return (

@@ -60,13 +60,14 @@ const Discover = () => {
       </div>
 
       <div className="row g-4">
-        {discoverData?.map((item) => (
+        {discoverData?.map((item, index) => (
           <SongCard
             key={item.key}
             title={item.title}
             subtitle={item.subtitle}
             image={item.images?.coverart}
             songData={item}
+            index={index}
           />
         ))}
       </div>

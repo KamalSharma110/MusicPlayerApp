@@ -3,15 +3,13 @@ import React, { useState } from "react";
 let prevVolume;
 const VolumeBar = () => {
   const [isMute, setIsMute] = useState(false);
-  const volumeInput = document.getElementById("volume");
-  const audioElement = document.getElementById("audio");
 
   const toggleMute = (isMute) => {
     if (isMute) {
-      prevVolume = volumeInput.value;
-      audioElement.volume = volumeInput.value = 0;
+      prevVolume = document.getElementById("volume").value;
+      document.getElementById("audio").volume = document.getElementById("volume").value = 0;
     } else {
-      audioElement.volume = volumeInput.value = prevVolume;
+      document.getElementById("audio").volume = document.getElementById("volume").value = prevVolume;
     }
   };
 
@@ -23,7 +21,7 @@ const VolumeBar = () => {
           isMute ? "mute" : "up"
         }-fill fs-3`}
         onClick={() => {
-          if(volumeInput) toggleMute(!isMute); //we can put it after setIsMute also
+          toggleMute(!isMute); //we can put it after setIsMute also
           setIsMute(!isMute);
         }}
       ></i>
@@ -35,8 +33,8 @@ const VolumeBar = () => {
         max="1.0"
         step="0.01"
         onChange={() => {
-          audioElement.volume = volumeInput?.value;
-          if(volumeInput?.value === '0') setIsMute(true);
+          document.getElementById("audio").volume = document.getElementById("volume")?.value;
+          if(document.getElementById("volume")?.value === '0') setIsMute(true);
           else setIsMute(false);
         }}
       />

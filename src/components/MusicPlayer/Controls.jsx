@@ -12,6 +12,14 @@ const Controls = (props) => {
     dispatch(playerSliceActions.playPause());
   };
 
+  const handlePrevSong = () => {
+    dispatch(playerSliceActions.prevSong());
+  };
+
+  const handleNextSong = () => {
+    dispatch(playerSliceActions.nextSong());
+  };
+
   return (
     <div className="col-4 d-flex flex-column">
       <div className="d-flex justify-content-evenly align-items-center px-3">
@@ -23,7 +31,7 @@ const Controls = (props) => {
           }}
         ></i>
 
-        <i class="bi bi-skip-start-fill fs-3"></i>
+        <i className="bi bi-skip-start-fill fs-3" onClick={handlePrevSong}></i>
 
         <i
           className={`bi bi-${
@@ -32,9 +40,9 @@ const Controls = (props) => {
           onClick={handlePlayPause}
         ></i>
 
-        <i class="bi bi-skip-end-fill fs-3"></i>
+        <i className="bi bi-skip-end-fill fs-3" onClick={handleNextSong}></i>
 
-        <i class="bi bi-shuffle fs-5"></i>
+        <i className="bi bi-shuffle fs-5"></i>
       </div>
       <SeekBar duration={props.duration} currentTime={props.currentTime} />
     </div>
