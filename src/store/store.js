@@ -15,7 +15,6 @@ const playerSlice = createSlice({
         },
 
         setActiveSong(state, action){
-            if(state.activeSong === action.payload) return;
             state.activeSong = action.payload;
             state.isPlaying = true;
         },

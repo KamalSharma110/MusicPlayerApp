@@ -13,8 +13,9 @@ code {
     monospace;
 }
 
-i{
+i, input[type="range"]{
   cursor: pointer;
+  outline: none;
 }
 
 .truncate{

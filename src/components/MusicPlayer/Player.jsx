@@ -3,6 +3,7 @@ import Audio from "./Audio";
 import Controls from "./Controls";
 import classes from "./Player.module.css";
 import Track from "./Track";
+import VolumeBar from "./VolumeBar";
 
 const Player = () => {
   const [duration, setDuration] = useState(null);
@@ -16,6 +17,7 @@ const Player = () => {
         onLoadedData={(val) => setDuration(val)}
         onTimeUpdate={(val) => setCurrentTime(val)}
       />
+      <VolumeBar />
     </div>
   );
 };

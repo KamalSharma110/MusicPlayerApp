@@ -4,11 +4,13 @@ import classes from "./SongCard.module.css";
 
 const SongCard = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
+  const activeSong = useSelector((state) => state.activeSong);
   const dispatch = useDispatch();
+  const isActive = (activeSong === props.songData);
 
-  const handlePlayPause = () => {
-    dispatch(playerSliceActions.playPause());
-    dispatch(playerSliceActions.setActiveSong(props.songData));
+  const handleClick = () => {
+    if (isActive) dispatch(playerSliceActions.playPause());
+    else dispatch(playerSliceActions.setActiveSong(props.songData));
   };
 
   return (
@@ -17,16 +19,16 @@ const SongCard = (props) => {
         className="rounded p-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.05" }}
       >
-        <div className={classes["image-container"]} onClick={handlePlayPause}>
+        <div className={classes["image-container"]} onClick={handleClick}>
           <img src={props.image} alt="song_img" className="img-fluid rounded" />
 
-          <i className={`bi bi-${isPlaying ? "pause" : "play"}-circle-fill`}></i>
+          <i
+            className={`bi bi-${(isPlaying && isActive)? "pause" : "play"}-circle-fill`}
+          ></i>
         </div>
 
-        <p className={`mb-0 mt-1 fw-semibold truncate`}>
-          {props.title}
-        </p>
-        <small className='truncate'>{props.subtitle}</small>
+        <p className={`mb-0 mt-1 fw-semibold truncate`}>{props.title}</p>
+        <small className="truncate">{props.subtitle}</small>
       </div>
     </div>
   );
