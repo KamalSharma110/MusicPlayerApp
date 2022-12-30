@@ -42,7 +42,7 @@ const Discover = () => {
   }, [dispatch, setDiscoverData]);
 
   return (
-    <section className="container">
+    <section className="col-12 col-lg-10">
       <div className="row justify-content-sm-between justify-content-center align-items-center">
         <h2 className="col-12 col-sm-auto text-white text-center my-3">
           Discover

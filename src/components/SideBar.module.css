@@ -1,0 +1,28 @@
+.offcanvas-background {
+  background-color: #483d8b99;
+  backdrop-filter: blur(7px);
+}
+
+.text-gray{
+    color: lightgray;
+}
+
+.text-gray:hover, .active{
+    color: cyan;
+}
+
+.text-gray i{
+    color: inherit;
+}
+
+@media (min-width: 992px){
+    .background{
+        background-color: #1a1525;
+    }
+}
+
+
+
+
+
+
