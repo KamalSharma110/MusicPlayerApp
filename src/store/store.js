@@ -3,6 +3,7 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 const initialState = {
   isPlaying: false,
   currentIndex: 0,
+  isShuffling: false,
   currentSongs: [],
   activeSong: {},
 };
@@ -13,6 +14,10 @@ const playerSlice = createSlice({
   reducers: {
     playPause(state) {
       state.isPlaying = !state.isPlaying;
+    },
+
+    toggleShuffling(state) {
+      state.isShuffling = !state.isShuffling;
     },
 
     setActiveSong(state, action) {
@@ -26,16 +31,29 @@ const playerSlice = createSlice({
     },
 
     prevSong(state) {
+      let newIndex = state.isShuffling
+        ? Math.floor(Math.random() * state.currentIndex)
+        : state.currentIndex - 1;
+
+      if (newIndex < 0) newIndex = 0;
+
       playerSlice.caseReducers.setActiveSong(state, {
-        ...state.currentSongs[state.currentIndex - 1],
-        index: state.currentIndex - 1,
+        payload: state.currentSongs[newIndex],
       });
     },
 
     nextSong(state) {
+      let newIndex = state.isShuffling
+        ? state.currentIndex + 1 +
+          Math.floor(
+            Math.random() * (state.currentSongs.length - state.currentIndex)
+          )
+        : state.currentIndex + 1;
+
+      if (newIndex === state.currentSongs.length) newIndex--;
+
       playerSlice.caseReducers.setActiveSong(state, {
-        ...state.currentSongs[state.currentIndex + 1],
-        index: state.currentIndex + 1,
+        payload: state.currentSongs[newIndex],
       });
     },
   },

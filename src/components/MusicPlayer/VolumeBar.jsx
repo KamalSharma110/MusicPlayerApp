@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-let prevVolume;
+let prevVolume, audioElement, volumeElement;
 const VolumeBar = () => {
   const [isMute, setIsMute] = useState(false);
 
+  useEffect(()=>{
+    audioElement = document.getElementById("audio");
+    volumeElement = document.getElementById("volume");
+    audioElement.volume = volumeElement.value = 0.02;
+  }, []);
+
   const toggleMute = (isMute) => {
     if (isMute) {
-      prevVolume = document.getElementById("volume").value;
-      document.getElementById("audio").volume = document.getElementById("volume").value = 0;
+      prevVolume = volumeElement.value;
+      audioElement.volume = volumeElement.value = 0;
     } else {
-      document.getElementById("audio").volume = document.getElementById("volume").value = prevVolume;
+      audioElement.volume = volumeElement.value = prevVolume;
     }
   };
+
+  const changeHandler = () => {
+    audioElement.volume = volumeElement.value;
+    if(volumeElement.value === '0') setIsMute(true);
+    else setIsMute(false);
+  }
 
 
   return (
@@ -32,11 +44,7 @@ const VolumeBar = () => {
         min="0.0"
         max="1.0"
         step="0.01"
-        onChange={() => {
-          document.getElementById("audio").volume = document.getElementById("volume")?.value;
-          if(document.getElementById("volume")?.value === '0') setIsMute(true);
-          else setIsMute(false);
-        }}
+        onChange={changeHandler}
       />
     </div>
   );

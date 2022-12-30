@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../../store/store.js";
-import SeekBar from "./SeekBar.jsx";
 
-const Controls = (props) => {
+const Controls = () => {
   const isPlaying = useSelector((state) => state.isPlaying);
+  const isShuffling = useSelector((state) => state.isShuffling);
   const dispatch = useDispatch();
   const [isLooping, setIsLooping] = useState(false);
 
@@ -20,31 +20,33 @@ const Controls = (props) => {
     dispatch(playerSliceActions.nextSong());
   };
 
+  const handleShuffle = () => dispatch(playerSliceActions.toggleShuffling());
+
   return (
-    <div className="col-4 d-flex flex-column">
-      <div className="d-flex justify-content-evenly align-items-center px-3">
-        <i
-          className={`bi bi-repeat${isLooping ? "-1" : ""} fs-5`}
-          onClick={() => {
-            document.getElementById('audio').loop = !isLooping;
-            setIsLooping(!isLooping);
-          }}
-        ></i>
+    <div className="d-flex justify-content-evenly align-items-center px-3">
+      <i
+        className={`bi bi-repeat${isLooping ? "-1" : ""} fs-5`}
+        onClick={() => {
+          document.getElementById("audio").loop = !isLooping;
+          setIsLooping(!isLooping);
+        }}
+      ></i>
 
-        <i className="bi bi-skip-start-fill fs-3" onClick={handlePrevSong}></i>
+      <i className="bi bi-skip-start-fill fs-3" onClick={handlePrevSong}></i>
 
-        <i
-          className={`bi bi-${
-            isPlaying ? "pause" : "play"
-          }-fill fs-1 align-self-center`}
-          onClick={handlePlayPause}
-        ></i>
+      <i
+        className={`bi bi-${
+          isPlaying ? "pause" : "play"
+        }-fill fs-1 align-self-center`}
+        onClick={handlePlayPause}
+      ></i>
 
-        <i className="bi bi-skip-end-fill fs-3" onClick={handleNextSong}></i>
+      <i className="bi bi-skip-end-fill fs-3" onClick={handleNextSong}></i>
 
-        <i className="bi bi-shuffle fs-5"></i>
-      </div>
-      <SeekBar duration={props.duration} currentTime={props.currentTime} />
+      <i
+        className={`bi bi-shuffle fs-5 ${isShuffling ? "text-primary" : ""}`}
+        onClick={handleShuffle}
+      ></i>
     </div>
   );
 };
