@@ -1,49 +1,82 @@
-// import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import classes from "./SideBar.module.css";
+// import { logo } from "../assets/index";
+
+const Nav = () => {
+  return (
+    <ul className="nav flex-column">
+      <li className="nav-item mb-3">
+        <NavLink
+          activeClassName={classes.active}
+          className={`nav-link ${classes["text-gray"]}`}
+          to="/"
+        >
+          <i class="bi bi-house me-2"></i>
+          Discover
+        </NavLink>
+      </li>
+      <li className="nav-item mb-3">
+        <NavLink
+          activeClassName={classes.active}
+          className={`nav-link ${classes["text-gray"]}`}
+          to="/"
+        >
+          <i class="bi bi-image me-2"></i>
+          Around You
+        </NavLink>
+      </li>
+      <li className="nav-item mb-3">
+        <NavLink
+          activeClassName={classes.active}
+          className={`nav-link ${classes["text-gray"]}`}
+          to="/"
+        >
+          <i class="bi bi-people me-2"></i>
+          Top Artists
+        </NavLink>
+      </li>
+      <li className="nav-item mb-3">
+        <NavLink
+          activeClassName={classes.active}
+          className={`nav-link ${classes["text-gray"]}`}
+          to="/"
+        >
+          <i class="bi bi-hash me-2"></i>
+          Top Charts
+        </NavLink>
+      </li>
+    </ul>
+  );
+};
 
 const SideBar = () => {
   return (
     <div className="col-2">
       <button
-        class="btn btn-white "
+        className={`btn d-lg-none`}
         type="button"
         data-bs-toggle="offcanvas"
-        data-bs-target="#staticBackdrop"
-        aria-controls="staticBackdrop"
+        data-bs-target="#offcanvasResponsive"
       >
-        <i class="bi bi-list fs-2"></i>
+        <i className="bi bi-list fs-2"></i>
       </button>
 
       <div
-        class="offcanvas offcanvas-start "
-        data-bs-backdrop="static"
-        tabindex="-1"
-        id="staticBackdrop"
-        aria-labelledby="staticBackdropLabel"
+        className={`offcanvas-lg offcanvas-start ${classes.background}`}
+        tabIndex="-1"
+        id="offcanvasResponsive"
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="staticBackdropLabel">
-            Offcanvas
-          </h5>
+        <div className="offcanvas-header">
+          <img src={logo} alt="" />
           <button
             type="button"
-            class="btn-close"
+            className={`btn-close ${classes["text-gray"]}`}
             data-bs-dismiss="offcanvas"
-            aria-label="Close"
+            data-bs-target="#offcanvasResponsive"
           ></button>
         </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Link
-              </a>
-            </li>
-          </ul>
+        <div className="offcanvas-body">
+          <Nav />
         </div>
       </div>
     </div>
