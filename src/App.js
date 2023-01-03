@@ -6,6 +6,7 @@ import Discover from "./pages/Discover";
 import AroundYou from "./pages/AroundYou";
 import TopArtists from "./pages/TopArtists";
 import TopCharts from "./pages/TopCharts";
+import TopPlay from "./components/TopPlay";
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
             <Redirect to="/discover"/>
           </Route>
         </Switch>
+
+        <TopPlay />
       </div>
       <Player />
     </div>

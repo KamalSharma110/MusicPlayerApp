@@ -65,18 +65,18 @@ const SideBar = () => {
       </button>
 
       <div
-        class={`offcanvas offcanvas-start d-lg-none ${classes['offcanvas-background']}`}
-        tabindex="-1"
+        className={`offcanvas offcanvas-start d-lg-none ${classes['offcanvas-background']}`}
+        tabIndex="-1"
         id="offcanvasExample"
       >
-        <div class="offcanvas-header justify-content-end">
+        <div className="offcanvas-header justify-content-end">
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="offcanvas"
           ></button>
         </div>
-        <div class="offcanvas-body">
+        <div className="offcanvas-body">
             <Nav />
         </div>
       </div>
