@@ -1,0 +1,9 @@
+.topplay li{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.topplay li:hover{
+    background-color: #4c426e;
+}

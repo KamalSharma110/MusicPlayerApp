@@ -3,17 +3,24 @@
   backdrop-filter: blur(7px);
 }
 
+.offcanvas-background button{
+    filter: invert(1);
+}
+
 .text-gray{
     color: lightgray;
 }
 
-.text-gray:hover, .active{
+.text-gray:hover,
+.text-gray:focus,
+.active{
     color: cyan;
 }
 
 .text-gray i{
     color: inherit;
 }
+
 
 @media (min-width: 992px){
     .background{

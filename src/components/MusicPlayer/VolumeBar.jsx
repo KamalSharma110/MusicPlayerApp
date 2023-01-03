@@ -7,7 +7,7 @@ const VolumeBar = () => {
   useEffect(()=>{
     audioElement = document.getElementById("audio");
     volumeElement = document.getElementById("volume");
-    audioElement.volume = volumeElement.value = 0.02;
+    audioElement.volume = volumeElement.value = 0.002;
   }, []);
 
   const toggleMute = (isMute) => {

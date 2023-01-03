@@ -11,7 +11,7 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState(null);
 
   return (
-    <div className={`row rounded-top-4 fixed-bottom ${classes.player}`}>
+    <div className={`row fixed-bottom ${classes.player}`}>
       <Track />
       <div className="col-4 d-flex flex-column">
         <Controls />
