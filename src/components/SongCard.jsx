@@ -2,6 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
 import classes from "./SongCard.module.css";
+import { Link } from "react-router-dom";
+
 
 const SongCard = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
@@ -37,7 +39,9 @@ const SongCard = (props) => {
           ></i>
         </div>
 
-        <p className={`mb-0 mt-1 fw-semibold truncate`}>{props.title}</p>
+        <Link to={`/song-details/${props.songData.key}`}>
+          <p className={`mb-0 mt-1 fw-semibold truncate`}>{props.title}</p>
+        </Link>
         <small className="truncate d-block">{props.subtitle}</small>
       </div>
     </div>

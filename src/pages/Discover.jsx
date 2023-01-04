@@ -28,6 +28,10 @@ const Discover = () => {
       );
       const data = await response.json();
       localStorage.setItem("globalChartsData", JSON.stringify(data));
+
+      setDiscoverData(
+        data.map((item, index) => ({ ...item, index }))
+      );
     };
 
     const globalChartsData = JSON.parse(
@@ -37,7 +41,7 @@ const Discover = () => {
     if (!globalChartsData) fetchWorldCharts();
 
     setDiscoverData(
-      globalChartsData.map((item, index) => ({ ...item, index }))
+      globalChartsData?.map((item, index) => ({ ...item, index }))
     );
   }, [dispatch, setDiscoverData]);
 
@@ -63,7 +67,7 @@ const Discover = () => {
       </div>
       <div className="row g-4">
         {
-          (discoverData.map((item) => {
+          (discoverData?.map((item) => {
             if (!item.artists) return "";
 
             return (

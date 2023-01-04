@@ -14,7 +14,7 @@ const TopPlay = () => {
 
   const getSongs = (songRequested) => {
     const arr = [];
-    for (let i = 0; i < currentSongs.length; i++) {
+    for (let i = 0; i < currentSongs?.length; i++) {
       if (arr.length >= 5) break;
       if (!currentSongs[i].artists) continue;
       if (songRequested === true)
