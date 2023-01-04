@@ -1,9 +1,9 @@
-.topplay li{
+li.top-play-card{
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
-.topplay li:hover{
+li.top-play-card:hover{
     background-color: #4c426e;
 }
