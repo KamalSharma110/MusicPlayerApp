@@ -31,13 +31,13 @@ const SongDetails = () => {
     const songDetailsData = JSON.parse(localStorage.getItem(`songDetailsData_${params.songId}`));
 
     if (!songDetailsData) fetchSongDetails();
-    else setTrackDetails(songDetailsData); // this is in else statement because this line will run before the complete execution of fetchSongDetails()
+    else setTrackDetails(songDetailsData);
 
   }, [params.songId]);
 
   return (
     <section className="text-white col-12 col-lg-7" style={{marginTop: '5rem'}}>
-      <DetailsHeader details={trackDetails}/>
+      {trackDetails && <DetailsHeader details={trackDetails}/>}
       <h4 className="mb-4">Lyrics</h4>
       {trackDetails?.sections[1].text.map((line, index) => <p key={index} className="mb-0 fw-light">{line}</p>)}
       <RelatedSongs id={params.songId}/>

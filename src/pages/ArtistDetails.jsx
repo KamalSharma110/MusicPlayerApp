@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AlbumCard from "../components/AlbumCard";
 import DetailsHeader from "../components/DetailsHeader";
 
 const ArtistDetails = () => {
@@ -23,21 +24,35 @@ const ArtistDetails = () => {
       );
 
       const data = await response.json();
-      localStorage.setItem(`artistDetailsData_${params.artistId}`, JSON.stringify(data));
-      setArtistDetails(data); 
+      localStorage.setItem(
+        `artistDetailsData_${params.artistId}`,
+        JSON.stringify(data)
+      );
+      setArtistDetails(data);
     };
 
-    const artistDetailsData = JSON.parse(localStorage.getItem(`artistDetailsData_${params.artistId}`));
+    const artistDetailsData = JSON.parse(
+      localStorage.getItem(`artistDetailsData_${params.artistId}`)
+    );
 
     if (!artistDetailsData) fetchArtistDetails();
-    else setArtistDetails(artistDetailsData); 
-
+    else setArtistDetails(artistDetailsData);
   }, [params.artistId]);
 
-
   return (
-    <section className="text-white col-12 col-lg-7" style={{marginTop: '5rem'}}>
-      <DetailsHeader details={artistDetails}/>
+    <section
+      className="text-white col-12 col-lg-7"
+      style={{ marginTop: "5rem" }}
+    >
+      {artistDetails && <DetailsHeader details={artistDetails} />}
+      <div>
+        <h4 className="mb-4 mt-5">Related Songs</h4>
+        <ol className="list-group list-group-numbered">
+          {artistDetails?.data[0].views['top-songs'].data.map(dataItem => (
+            <AlbumCard albumData={dataItem.attributes} key={dataItem.attributes.id}/>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 };
