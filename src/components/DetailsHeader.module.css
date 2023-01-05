@@ -1,0 +1,13 @@
+.track-details{
+    margin-bottom: 5rem;
+}
+
+.track-details::before{
+    content: '';
+    background-image: linear-gradient(to left, transparent , #00000057);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 40%;
+    z-index: -100;
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import classes from "./TopPlay.module.css";
 import TopPlayCard from "./TopPlayCard";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
@@ -41,13 +40,13 @@ const TopPlay = () => {
   };
 
   return (
-    <section className={`text-white col-12 col-lg-3 ${classes.topplay}`}>
-      <div>
-        <h4 className="mt-5">Top Charts</h4>
+    <section className='text-white col-12 col-lg-3 position-fixed top-0 end-0'>
+      <div className="mt-3">
+        <h4>Top Charts</h4>
         <ol className="list-group list-group-numbered">{getSongs(true)}</ol>
       </div>
-      <div>
-        <h4 className="mt-5">Top Artists</h4>
+      <div className="mt-3">
+        <h4>Top Artists</h4>
         <Swiper
           slidesPerView="auto"
           spaceBetween={15}

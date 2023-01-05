@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
+import classes from './TopPlayCard.module.css';
 
 const TopPlayCard = (props) => {
   const { key, images, title, subtitle } = props.song;
@@ -15,7 +16,7 @@ const TopPlayCard = (props) => {
 
   return (
     <li
-      className="list-group-item d-flex align-items-center text-white my-1 rounded-2"
+      className={`list-group-item d-flex align-items-center text-white rounded-2 ${classes['top-play-card']}`}
       key={key}
     >
       <img

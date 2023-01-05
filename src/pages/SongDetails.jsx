@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DetailsHeader from "../components/DetailsHeader";
+import RelatedSongs from "../components/RelatedSongs";
 
 const SongDetails = () => {
   const params = useParams();
@@ -35,10 +36,11 @@ const SongDetails = () => {
   }, [params.songId]);
 
   return (
-    <section className="text-white col-12 col-lg-7 mt-5">
-      <DetailsHeader trackDetails={trackDetails}/>
-      <h4 className="mb-3">Lyrics</h4>
+    <section className="text-white col-12 col-lg-7" style={{marginTop: '5rem'}}>
+      <DetailsHeader details={trackDetails}/>
+      <h4 className="mb-4">Lyrics</h4>
       {trackDetails?.sections[1].text.map((line, index) => <p key={index} className="mb-0 fw-light">{line}</p>)}
+      <RelatedSongs id={params.songId}/>
     </section>
   );
 };
