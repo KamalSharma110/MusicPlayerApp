@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import TopPlayCard from "./TopPlayCard";
 
-const RelatedSongs = ({ id }) => {
+const RelatedSongs = ({id : songId}) => {
   const [relatedSongs, setRelatedSongs] = useState([]);
-
+  
   useEffect(() => {
     const fetchRelatedSongs = async () => {
       const options = {
@@ -16,22 +16,22 @@ const RelatedSongs = ({ id }) => {
       };
 
       const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/tracks/related?track_id=${id}`,
+        `https://shazam-core.p.rapidapi.com/v1/tracks/related?track_id=${songId}`,
         options
       );
 
       const data = await response.json();
-      localStorage.setItem(`relatedSongs_${id}`, JSON.stringify(data));
+      localStorage.setItem(`relatedSongs_${songId}`, JSON.stringify(data));
       setRelatedSongs(data);
     };
 
     const relatedSongsData = JSON.parse(
-      localStorage.getItem(`relatedSongs_${id}`)
+      localStorage.getItem(`relatedSongs_${songId}`)
     );
 
     if (!relatedSongsData) fetchRelatedSongs();
     else setRelatedSongs(relatedSongsData);
-  }, [id]);
+  }, [songId]);
 
   return (
     <div>
