@@ -1,9 +1,14 @@
-import { useRef } from "react";
+import { useEffect } from "react";
 import classes from "./DetailsHeader.module.css";
 
 const DetailsHeader = ({ details }) => {
   const { trackadamid: songId } = details;
-  const ref = useRef();
+
+  useEffect(() => {
+    if (!songId)
+      document.getElementById("artistBio").innerHTML =
+        details.data[0].attributes.artistBio;
+  }, [songId, details]);
 
   return (
     <div
@@ -24,13 +29,18 @@ const DetailsHeader = ({ details }) => {
         <p className="truncate fw-semibold mb-0 fs-4">
           {songId ? details.title : details.data[0].attributes.name}
         </p>
-        <small className={`truncate d-block ${songId ? 'fw-light':'fw-semibold'} fs-6`}>
+        <small
+          className={`truncate d-block ${
+            songId ? "fw-light" : "fw-semibold"
+          } fs-6`}
+        >
           {songId ? details.subtitle : details.data[0].attributes.origin}
         </small>
-        <small id ='artistBio' ref={ref} className={`fw-light fs-6 ${songId ? '':'mt-4'}`}>
-          {songId
-            ? details.genres.primary
-            : ref.current? ref.current.innerHTML = details.data[0].attributes.artistBio:''}
+        <small
+          id="artistBio"
+          className={`fw-light fs-6 ${songId ? "" : "mt-4"}`}
+        >
+          {songId ? details.genres.primary : ""}
         </small>
       </div>
     </div>
