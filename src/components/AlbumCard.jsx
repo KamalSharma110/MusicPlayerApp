@@ -11,8 +11,8 @@ const AlbumCard = ({ albumData }) => {
         width="60px"
       />
       <div className="w-50">
-        <p className={`mb-0 fw-semibold truncate`}>{albumData.albumName}</p>
-        <small className="truncate d-block">{albumData.artistName}</small>
+        <p className={`mb-0 fw-semibold truncate`}>{albumData.name}</p>
+        <small className="truncate d-block">{albumData.albumName}</small>
       </div>
     </li>
   );

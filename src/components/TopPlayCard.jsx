@@ -3,7 +3,7 @@ import { playerSliceActions } from "../store/store";
 import classes from './TopPlayCard.module.css';
 
 const TopPlayCard = (props) => {
-  const { key, images, title, subtitle } = props.song;
+  const { images, title, subtitle } = props.song;
   const isPlaying = useSelector((state) => state.isPlaying);
   const activeSong = useSelector((state) => state.activeSong);
   const dispatch = useDispatch();
@@ -17,7 +17,6 @@ const TopPlayCard = (props) => {
   return (
     <li
       className={`list-group-item d-flex align-items-center text-white rounded-2 ${classes['top-play-card']}`}
-      key={key}
     >
       <img
         src={images?.coverart}

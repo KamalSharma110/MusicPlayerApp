@@ -39,3 +39,23 @@ input[type="range"]{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.animate-up {
+  animation: anim linear 0.7s;
+}
+
+@keyframes anim {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

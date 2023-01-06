@@ -17,7 +17,7 @@ const SongCard = (props) => {
   };
 
   return (
-    <div className={`col-6 col-sm-4 col-xl-3 ${classes.songcard}`}>
+    <div className='col-6 col-sm-4 col-xl-3 animate-up'>
       <div
         className="rounded p-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.1" }}
@@ -26,7 +26,7 @@ const SongCard = (props) => {
           <img
             src={props.image}
             alt="song_img"
-            className={`img-fluid rounded ${
+            className={`img-fluid ${
               isActiveAndPlaying ? classes["img_active"] : ""
             }`}
           />

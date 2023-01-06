@@ -6,6 +6,7 @@ import DetailsHeader from "../components/DetailsHeader";
 const ArtistDetails = () => {
   const params = useParams();
   const [artistDetails, setArtistDetails] = useState(null);
+ 
 
   useEffect(() => {
     const fetchArtistDetails = async () => {
@@ -48,9 +49,9 @@ const ArtistDetails = () => {
       <div>
         <h4 className="mb-4 mt-5">Related Songs</h4>
         <ol className="list-group list-group-numbered">
-          {artistDetails?.data[0].views['top-songs'].data.map(dataItem => (
-            <AlbumCard albumData={dataItem.attributes} key={dataItem.attributes.id}/>
-          ))}
+          {artistDetails?.data[0].views["top-songs"].data.map(
+            dataItem => <AlbumCard albumData={dataItem.attributes} key={dataItem.id} />
+          )}
         </ol>
       </div>
     </section>

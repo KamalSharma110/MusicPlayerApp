@@ -15,7 +15,7 @@ const Track = () => {
       />
       <div className="text-white ms-3">
         <p className="mb-0 fw-semibold truncate">{activeSong.title}</p>
-        <small className="truncate">{activeSong.subtitle}</small>
+        <small className="truncate d-block">{activeSong.subtitle}</small>
       </div>
     </div>
   );
