@@ -5,7 +5,6 @@ import SideBar from "./components/SideBar";
 import Discover from "./pages/Discover";
 import AroundYou from "./pages/AroundYou";
 import TopArtists from "./pages/TopArtists";
-import TopCharts from "./pages/TopCharts";
 import TopPlay from "./components/TopPlay";
 import SongDetails from "./pages/SongDetails";
 import ArtistDetails from "./pages/ArtistDetails";
@@ -22,9 +21,6 @@ function App() {
           </Route>
           <Route path="/discover">
             <Discover />
-          </Route>
-          <Route path="/topCharts">
-            <TopCharts />
           </Route>
           <Route path="/topArtists">
             <TopArtists />

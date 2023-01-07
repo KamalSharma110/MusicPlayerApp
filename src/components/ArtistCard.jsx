@@ -16,8 +16,8 @@ const ArtistCard = ({ artistName, imageUrl, artistId }) => {
         onClick={clickHandler}
       />
       <p
-        className={`mb-0 mt-1 fw-semibold truncate`}
-        style={{ cursor: "pointer" }}
+        className={`mb-0 mt-1 fw-semibold truncate mx-auto`}
+        style={{ cursor: "pointer" , width: 'min-content'}}
         onClick={clickHandler}>
         {artistName}
       </p>

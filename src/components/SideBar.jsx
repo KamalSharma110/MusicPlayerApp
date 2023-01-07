@@ -38,16 +38,6 @@ const Nav = () => {
           Top Artists
         </NavLink>
       </li>
-      <li className="nav-item mb-3">
-        <NavLink
-          activeClassName={classes.active}
-          className={`nav-link ${classes["text-gray"]}`}
-          to="/topCharts"
-        >
-          <i className="bi bi-hash me-2"></i>
-          Top Charts
-        </NavLink>
-      </li>
     </ul>
   );
 };
