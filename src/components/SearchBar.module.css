@@ -1,0 +1,8 @@
+.form input{
+    width: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: 0.8rem;
+    color: lightgray;
+}

@@ -2,13 +2,13 @@ import { genres } from "../constants.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import SongCard from "../components/SongCard";
+import SearchBar from '../components/SearchBar';
 import { playerSliceActions } from "../store/store";
 
-let genre = 'All';
 const Discover = () => {
   const dispatch = useDispatch();
   const [discoverData, setDiscoverData] = useState([]);
-
+  const [genre, setGenre] = useState("All");
   dispatch(playerSliceActions.setCurrentSongs(discoverData));
 
   useEffect(() => {
@@ -41,16 +41,17 @@ const Discover = () => {
     setDiscoverData(
       globalChartsData?.map((item, index) => ({ ...item, index }))
     );
-  }, [dispatch, setDiscoverData]);
+  }, [setDiscoverData]);
 
   const genreClickHandler = async (event) => {
     event.preventDefault();
 
     const genreCode = event.target.getAttribute("data-value");
-    genre = event.target.textContent;
 
     let data = JSON.parse(
-      localStorage.getItem(`genreCharts_${genreCode}`)
+      genreCode === "ALL"
+        ? localStorage.getItem("globalChartsData")
+        : localStorage.getItem(`genreCharts_${genreCode}`)
     );
 
     if (!data) {
@@ -73,10 +74,15 @@ const Discover = () => {
     }
 
     setDiscoverData(data.map((item, index) => ({ ...item, index })));
+    setGenre(event.target.textContent);
   };
 
   return (
     <section className="col-12 col-lg-7 mt-4">
+      <div className="row">
+        <SearchBar />
+      </div>
+
       <div className="row justify-content-sm-between justify-content-center align-items-center">
         <h4 className="col-12 col-sm-auto text-white text-center my-3">
           Discover
@@ -105,7 +111,6 @@ const Discover = () => {
           </ul>
         </div>
       </div>
-
 
       <div className="row g-4">
         {discoverData?.map((item) => {
