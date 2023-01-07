@@ -8,6 +8,7 @@ import TopArtists from "./pages/TopArtists";
 import TopPlay from "./components/TopPlay";
 import SongDetails from "./pages/SongDetails";
 import ArtistDetails from "./pages/ArtistDetails";
+import Search from './pages/Search.jsx';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path='/artist-details/:artistId'>
             <ArtistDetails />
+          </Route>
+          <Route path='/search/:searchTerm'>
+            <Search />
           </Route>
           <Route path="*">
             <Redirect to="/discover"/>
