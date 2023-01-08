@@ -47,7 +47,10 @@ const RelatedSongs = ({id : songId}) => {
   return (
     <div>
       <h4 className="mb-4 mt-5">Related Songs</h4>
-      <ol className="list-group list-group-numbered">
+      <ol 
+      className="list-group list-group-numbered"
+      onClick={() => dispatch(playerSliceActions.toggleWidgetActive(false))}
+      >
         {currentSongs.map((relatedSong) => (
           <TopPlayCard song={relatedSong} key={relatedSong.key} />
         ))}

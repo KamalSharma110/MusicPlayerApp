@@ -8,20 +8,18 @@ const Audio = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
   const dispatch = useDispatch();
 
-  if (isPlaying) {
-    ref.current?.play();
-  } else ref.current?.pause();
+  if (isPlaying) ref.current?.play().catch(() => {});
+  else ref.current?.pause();
 
   return (
     <audio
       id="audio"
-      src={activeSong.hub?.actions[1].uri}
+      src={activeSong.hub?.actions?.at(1).uri}
       ref={ref}
-      autoPlay
       onLoadedData={() => props.onLoadedData(ref.current?.duration)} //this will help to show the duration of the current song
       onTimeUpdate={() => props.onTimeUpdate(ref.current?.currentTime)} //this will help to show the elapsed time of the current song
       onEnded={() => dispatch(playerSliceActions.nextSong())}
-    />
+      />
   );
 };
 

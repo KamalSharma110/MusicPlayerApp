@@ -12,12 +12,14 @@ const SongCard = (props) => {
   const isActiveAndPlaying = isPlaying && isActive;
 
   const handleClick = () => {
+    dispatch(playerSliceActions.toggleWidgetActive(false));
+
     if (isActive) dispatch(playerSliceActions.playPause());
     else dispatch(playerSliceActions.setActiveSong(props.songData));
   };
 
   return (
-    <div className='col-6 col-sm-4 col-xl-3 animate-up'>
+    <div className="col-6 col-sm-4 col-xl-3 animate-up">
       <div
         className="rounded p-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.1" }}

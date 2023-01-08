@@ -15,9 +15,7 @@ const TopPlay = () => {
   const history = useHistory();
 
   useEffect(() => {
-    let globalChartsData = JSON.parse(
-      localStorage.getItem("globalChartsData")
-    );
+    let globalChartsData = JSON.parse(localStorage.getItem("globalChartsData"));
 
     globalChartsData = globalChartsData.slice(0, 5);
 
@@ -65,7 +63,12 @@ const TopPlay = () => {
     <section className="text-white col-12 col-lg-3 position-fixed top-0 end-0">
       <div className="mt-3">
         <h4>Top Charts</h4>
-        <ol className="list-group list-group-numbered">{getSongs(true)}</ol>
+        <ol
+          className="list-group list-group-numbered"
+          onClick={() => dispatch(playerSliceActions.toggleWidgetActive(true))}
+        >
+          {getSongs(true)}
+        </ol>
       </div>
       <div className="mt-3">
         <h4>Top Artists</h4>
