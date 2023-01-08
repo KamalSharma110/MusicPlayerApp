@@ -9,6 +9,7 @@ const Discover = () => {
   const dispatch = useDispatch();
   const [discoverData, setDiscoverData] = useState([]);
   const [genre, setGenre] = useState("All");
+  
   dispatch(playerSliceActions.setCurrentSongs(discoverData));
 
   useEffect(() => {

@@ -7,7 +7,7 @@ const TopPlayCard = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
   const activeSong = useSelector((state) => state.activeSong);
   const dispatch = useDispatch();
-  const isActive = activeSong === props.song;
+  const isActive = activeSong.key === props.song.key;
 
   const handleClick = () => {
     if (isActive) dispatch(playerSliceActions.playPause());

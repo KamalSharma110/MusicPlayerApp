@@ -8,7 +8,7 @@ const SongCard = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
   const activeSong = useSelector((state) => state.activeSong);
   const dispatch = useDispatch();
-  const isActive = activeSong === props.songData;
+  const isActive = activeSong.key === props.songData.key;
   const isActiveAndPlaying = isPlaying && isActive;
 
   const handleClick = () => {

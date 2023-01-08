@@ -5,6 +5,7 @@ const initialState = {
   currentIndex: 0,
   isShuffling: false,
   currentSongs: [],
+  widgetSongs: [],
   activeSong: {},
 };
 
@@ -28,6 +29,10 @@ const playerSlice = createSlice({
 
     setCurrentSongs(state, action) {
       state.currentSongs = action.payload;
+    },
+
+    setWidgetSongs(state, action){
+      state.widgetSongs = action.payload;
     },
 
     prevSong(state) {
