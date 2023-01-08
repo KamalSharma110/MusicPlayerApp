@@ -4,7 +4,9 @@ const initialState = {
   isPlaying: false,
   currentIndex: 0,
   isShuffling: false,
+  isWidgetActive: false,
   currentSongs: [],
+  widgetSongs: [],
   activeSong: {},
 };
 
@@ -30,30 +32,57 @@ const playerSlice = createSlice({
       state.currentSongs = action.payload;
     },
 
+    setWidgetSongs(state, action) {
+      state.widgetSongs = action.payload;
+    },
+
+    toggleWidgetActive(state, action) {
+      state.isWidgetActive = action.payload;
+    },
+
     prevSong(state) {
+      const songs = state.isWidgetActive
+        ? state.widgetSongs
+        : state.currentSongs;
+
       let newIndex = state.isShuffling
         ? Math.floor(Math.random() * state.currentIndex)
         : state.currentIndex - 1;
 
+      while (
+        newIndex >= 0 &&
+        !songs.at(newIndex)?.hub?.actions?.at(1).uri
+      )
+        newIndex--;
+
       if (newIndex < 0) newIndex = 0;
 
       playerSlice.caseReducers.setActiveSong(state, {
-        payload: state.currentSongs[newIndex],
+        payload: songs[newIndex],
       });
     },
 
     nextSong(state) {
+      const songs = state.isWidgetActive
+        ? state.widgetSongs
+        : state.currentSongs;
+
       let newIndex = state.isShuffling
-        ? state.currentIndex + 1 +
-          Math.floor(
-            Math.random() * (state.currentSongs.length - state.currentIndex)
-          )
+        ? state.currentIndex +
+          1 +
+          Math.floor(Math.random() * (songs.length - state.currentIndex))
         : state.currentIndex + 1;
 
-      if (newIndex === state.currentSongs.length) newIndex--;
+      while (
+        newIndex < songs.length &&
+        !songs.at(newIndex)?.hub?.actions?.at(1).uri
+      )
+        newIndex++;
+
+      if (newIndex >= songs.length) newIndex = songs.length - 1;
 
       playerSlice.caseReducers.setActiveSong(state, {
-        payload: state.currentSongs[newIndex],
+        payload: songs[newIndex],
       });
     },
   },

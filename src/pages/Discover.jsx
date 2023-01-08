@@ -9,6 +9,7 @@ const Discover = () => {
   const dispatch = useDispatch();
   const [discoverData, setDiscoverData] = useState([]);
   const [genre, setGenre] = useState("All");
+  
   dispatch(playerSliceActions.setCurrentSongs(discoverData));
 
   useEffect(() => {
@@ -101,8 +102,8 @@ const Discover = () => {
             data-bs-theme="dark"
             onClick={(event) => genreClickHandler(event)}
           >
-            {genres.map((genre) => (
-              <li>
+            {genres.map((genre, index) => (
+              <li key={'g' + index}>
                 <a href="/" className="dropdown-item" data-value={genre.value}>
                   {genre.title}
                 </a>

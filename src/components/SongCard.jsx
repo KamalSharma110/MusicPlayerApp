@@ -8,16 +8,18 @@ const SongCard = (props) => {
   const isPlaying = useSelector((state) => state.isPlaying);
   const activeSong = useSelector((state) => state.activeSong);
   const dispatch = useDispatch();
-  const isActive = activeSong === props.songData;
+  const isActive = activeSong.key === props.songData.key;
   const isActiveAndPlaying = isPlaying && isActive;
 
   const handleClick = () => {
+    dispatch(playerSliceActions.toggleWidgetActive(false));
+
     if (isActive) dispatch(playerSliceActions.playPause());
     else dispatch(playerSliceActions.setActiveSong(props.songData));
   };
 
   return (
-    <div className='col-6 col-sm-4 col-xl-3 animate-up'>
+    <div className="col-6 col-sm-4 col-xl-3 animate-up">
       <div
         className="rounded p-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.1" }}

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { playerSliceActions } from "../store/store";
 import TopPlayCard from "./TopPlayCard";
 
 const RelatedSongs = ({id : songId}) => {
-  const [relatedSongs, setRelatedSongs] = useState([]);
+  const currentSongs = useSelector(state => state.currentSongs);
+  const dispatch = useDispatch();
   
   useEffect(() => {
     const fetchRelatedSongs = async () => {
@@ -22,7 +25,11 @@ const RelatedSongs = ({id : songId}) => {
 
       const data = await response.json();
       localStorage.setItem(`relatedSongs_${songId}`, JSON.stringify(data));
-      setRelatedSongs(data);
+      dispatch(
+        playerSliceActions.setCurrentSongs(
+          data.map((item, index) => ({ ...item, index }))
+        )
+      );
     };
 
     const relatedSongsData = JSON.parse(
@@ -30,14 +37,21 @@ const RelatedSongs = ({id : songId}) => {
     );
 
     if (!relatedSongsData) fetchRelatedSongs();
-    else setRelatedSongs(relatedSongsData);
-  }, [songId]);
+    else dispatch(
+      playerSliceActions.setCurrentSongs(
+        relatedSongsData.map((item, index) => ({ ...item, index }))
+      )
+    );
+  }, [songId, dispatch]);
 
   return (
     <div>
       <h4 className="mb-4 mt-5">Related Songs</h4>
-      <ol className="list-group list-group-numbered">
-        {relatedSongs.map((relatedSong) => (
+      <ol 
+      className="list-group list-group-numbered"
+      onClick={() => dispatch(playerSliceActions.toggleWidgetActive(false))}
+      >
+        {currentSongs.map((relatedSong) => (
           <TopPlayCard song={relatedSong} key={relatedSong.key} />
         ))}
       </ol>
