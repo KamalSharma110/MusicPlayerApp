@@ -1,90 +1,45 @@
 import { genres } from "../constants.js";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import SongCard from "../components/SongCard";
-import SearchBar from '../components/SearchBar';
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
+import { useGetChartsByGenreQuery } from "../services/shazamCore.js";
+
+import SongCard from "../components/SongCard";
+import SearchBar from "../components/SearchBar";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const Discover = () => {
+  const currentSongs = useSelector(state => state.player.currentSongs);
   const dispatch = useDispatch();
-  const [discoverData, setDiscoverData] = useState([]);
-  const [genre, setGenre] = useState("All");
-  
-  dispatch(playerSliceActions.setCurrentSongs(discoverData));
+  const ref = useRef();
+  const [genre, setGenre] = useState({ title: "Pop", value: "POP" });
+  const { data, isFetching, error } = useGetChartsByGenreQuery(genre.value);
 
   useEffect(() => {
-    const fetchWorldCharts = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
+    ref.current?.scrollIntoView({ behavior: "smooth" });
 
-      const response = await fetch(
-        "https://shazam-core.p.rapidapi.com/v1/charts/world",
-        options
-      );
-      const data = await response.json();
-      localStorage.setItem("globalChartsData", JSON.stringify(data));
-
-      setDiscoverData(data.map((item, index) => ({ ...item, index })));
-    };
-
-    const globalChartsData = JSON.parse(
-      localStorage.getItem("globalChartsData")
+    dispatch(
+      playerSliceActions.setCurrentSongs(
+        data?.map((item, index) => ({ ...item, index }))
+      )
     );
+  }, [dispatch, data]);
 
-    if (!globalChartsData) fetchWorldCharts();
 
-    setDiscoverData(
-      globalChartsData?.map((item, index) => ({ ...item, index }))
-    );
-  }, [setDiscoverData]);
-
-  const genreClickHandler = async (event) => {
+  const genreClickHandler = (event) => {
     event.preventDefault();
-
     const genreCode = event.target.getAttribute("data-value");
-
-    let data = JSON.parse(
-      genreCode === "ALL"
-        ? localStorage.getItem("globalChartsData")
-        : localStorage.getItem(`genreCharts_${genreCode}`)
-    );
-
-    if (!data) {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/charts/genre-world?genre_code=${genreCode}`,
-        options
-      );
-
-      data = await response.json();
-      localStorage.setItem(`genreCharts_${genreCode}`, JSON.stringify(data));
-    }
-
-    setDiscoverData(data.map((item, index) => ({ ...item, index })));
-    setGenre(event.target.textContent);
+    setGenre({ title: event.target.textContent, value: genreCode });
   };
 
   return (
-    <section className="col-12 col-lg-7 mt-4">
-      <div className="row">
+    <section className="col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4" ref={ref}>
+      <div className="row mt-3 mt-lg-0">
         <SearchBar />
       </div>
 
-      <div className="row justify-content-sm-between justify-content-center align-items-center">
+      <div className="mb-3 row justify-content-sm-between justify-content-center align-items-center">
         <h4 className="col-12 col-sm-auto text-white text-center my-3">
           Discover
         </h4>
@@ -95,7 +50,7 @@ const Discover = () => {
             data-bs-toggle="dropdown"
             className="btn btn-dark dropdown-toggle"
           >
-            {genre} &nbsp; &nbsp;
+            {genre.title} &nbsp; &nbsp;
           </button>
           <ul
             className="dropdown-menu"
@@ -103,7 +58,7 @@ const Discover = () => {
             onClick={(event) => genreClickHandler(event)}
           >
             {genres.map((genre, index) => (
-              <li key={'g' + index}>
+              <li key={"g" + index}>
                 <a href="/" className="dropdown-item" data-value={genre.value}>
                   {genre.title}
                 </a>
@@ -113,8 +68,10 @@ const Discover = () => {
         </div>
       </div>
 
-      <div className="row g-4">
-        {discoverData?.map((item) => {
+      <div className="row g-2 g-sm-3 g-md-4">
+        {isFetching && <Loader/>}
+        {error && <Error/>}
+        {currentSongs?.map((item) => {
           if (!item.artists) return "";
 
           return (

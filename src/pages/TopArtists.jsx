@@ -1,18 +1,23 @@
-import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
 import ArtistCard from "../components/ArtistCard";
+import { useGetWorldChartsQuery } from "../services/shazamCore";
+import Loader from '../components/Loader';
+import Error from '../components/Error';
 
 const TopArtists = () => {
-  const currentSongs = useSelector((state) => state.currentSongs);
+  const ref = useRef();
+  const { data, isFetching, error } = useGetWorldChartsQuery();
+
+  useEffect(() => ref.current?.scrollIntoView({ behavior: "smooth" }), []);
 
   const mapArtists = (song, index) => {
     if (!song.images) return "";
 
-    const res = currentSongs.findIndex((currentSong) => {
+    const res = data?.findIndex((currentSong) => {
       if (!currentSong.artists) return false;
       return currentSong.artists[0].adamid === song.artists[0].adamid;
     });
 
-    
     if (res < index) return "";
 
     let i = song.subtitle.search(/[&,]/);
@@ -29,10 +34,12 @@ const TopArtists = () => {
   };
 
   return (
-    <section className="col-12 col-lg-7 mt-4">
-      <h4 className="row text-white text-center my-3">Top Artists</h4>
-      <div className="row g-4">
-        {currentSongs.map((song, index) => mapArtists(song, index))}
+    <section className="col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4" ref={ref}>
+      <h4 className="text-white text-center text-sm-start my-3">Top Artists</h4>
+      <div className="row g-2 g-sm-3 g-md-4">
+        {isFetching && <Loader title='Loading Top Artists...'/>}
+        {error && <Error />}
+        {data?.map((song, index) => mapArtists(song, index))}
       </div>
     </section>
   );

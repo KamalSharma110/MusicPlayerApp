@@ -2,11 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
 import classes from "./SongCard.module.css";
-import { Link } from "react-router-dom";
+import SongInfo from "./SongInfo";
+
 
 const SongCard = (props) => {
-  const isPlaying = useSelector((state) => state.isPlaying);
-  const activeSong = useSelector((state) => state.activeSong);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
+  const activeSong = useSelector((state) => state.player.activeSong);
   const dispatch = useDispatch();
   const isActive = activeSong.key === props.songData.key;
   const isActiveAndPlaying = isPlaying && isActive;
@@ -19,9 +20,9 @@ const SongCard = (props) => {
   };
 
   return (
-    <div className="col-6 col-sm-4 col-xl-3 animate-up">
+    <div className="col-6 col-sm-4 col-md-3 col-lg-6 col-xl-3 animate-up">
       <div
-        className="rounded p-3 text-white bg-white"
+        className="rounded p-1 p-sm-2 p-lg-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.1" }}
       >
         <div className={classes["image-container"]} onClick={handleClick}>
@@ -40,14 +41,9 @@ const SongCard = (props) => {
           ></i>
         </div>
 
-        <Link to={`/song-details/${props.songData.key}`}>
-          <p className={`mb-0 mt-1 fw-semibold truncate`}>{props.title}</p>
-        </Link>
-        <Link to={`/artist-details/${props.songData.artists[0].adamid}`}>
-          <small className="truncate d-block">{props.subtitle}</small>
-        </Link>
+        <SongInfo songData={props.songData}/>
       </div>
-    </div>
+     </div>
   );
 };
 

@@ -27,25 +27,27 @@ const VolumeBar = () => {
 
 
   return (
-    <div className="col-4 align-items-center justify-content-end d-flex pe-5">
-      <i
-        className={`bi bi-volume-${
-          isMute ? "mute" : "up"
-        }-fill fs-3`}
-        onClick={() => {
-          toggleMute(!isMute); //we can put it after setIsMute also
-          setIsMute(!isMute);
-        }}
-      ></i>
-      <input
-        id="volume"
-        className="ms-2"
-        type="range"
-        min="0.0"
-        max="1.0"
-        step="0.01"
-        onChange={changeHandler}
-      />
+    <div className="col-3 col-md-4 ps-2 align-items-center justify-content-end d-flex">
+      {/* <div className="align-items-center justify-content-center d-flex w-100"> */}
+        <i
+          className={`bi bi-volume-${
+            isMute ? "mute" : "up"
+          }-fill fs-3`}
+          onClick={() => {
+            toggleMute(!isMute); //we can put it after setIsMute also
+            setIsMute(!isMute);
+          }}
+          ></i>
+        <input
+          id="volume"
+          type="range"
+          min="0.0"
+          max="1.0"
+          step="0.01"
+          onChange={changeHandler}
+          style={{width: 'min(100%, 130px)'}}
+        />
+      {/* </div> */}
     </div>
   );
 };

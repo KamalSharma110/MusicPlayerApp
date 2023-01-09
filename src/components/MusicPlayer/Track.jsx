@@ -1,21 +1,25 @@
 import { useSelector } from "react-redux";
-import classes from './Track.module.css';
+import SongInfo from "../SongInfo.jsx";
+import classes from "./Track.module.css";
 
 const Track = () => {
-  const activeSong = useSelector((state) => state.activeSong);
-  const isPlaying = useSelector((state) => state.isPlaying);
+  const activeSong = useSelector((state) => state.player.activeSong);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
 
   return (
-    <div className={`col-4 align-items-center d-flex p-2 ps-5 ${isPlaying ? classes.track: ''}`}>
+    <div
+      className={`col-3 col-md-4 py-2 pe-0 pe-sm-4 justify-content-center justify-content-md-start ${classes.track} ${
+        isPlaying ? classes["track-playing"] : ""
+      }`}
+    >
       <img
         src={activeSong.images?.coverart}
         alt=""
         className="rounded-circle img-fluid"
-        style={{width: `${activeSong ? '80px':'0px'}`}}
+        style={{ width: `${activeSong ? "80px" : "0px"}` }}
       />
-      <div className="text-white ms-3">
-        <p className="mb-0 fw-semibold truncate">{activeSong.title}</p>
-        <small className="truncate d-block">{activeSong.subtitle}</small>
+      <div className="text-white ms-3 d-none d-md-block">
+        <SongInfo songData={activeSong} />
       </div>
     </div>
   );

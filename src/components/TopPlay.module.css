@@ -1,0 +1,26 @@
+.top-play{
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.artist-images{
+    width: 100px;
+    cursor: pointer;
+}
+
+@media (max-width:992px){
+    .top-play{
+        position: static;
+    }
+
+    .artist-images{
+        width: 120px;
+    }
+}
+
+@media (max-width: 450px){
+    .artist-images{
+        width: 100px;
+    }
+}

@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { shazamCoreApi } from "../services/shazamCore";
 
 const initialState = {
   isPlaying: false,
@@ -23,6 +24,7 @@ const playerSlice = createSlice({
     },
 
     setActiveSong(state, action) {
+      document.getElementById("player").style.display = "flex";
       state.activeSong = action.payload;
       state.currentIndex = action.payload.index;
       state.isPlaying = true;
@@ -49,10 +51,7 @@ const playerSlice = createSlice({
         ? Math.floor(Math.random() * state.currentIndex)
         : state.currentIndex - 1;
 
-      while (
-        newIndex >= 0 &&
-        !songs.at(newIndex)?.hub?.actions?.at(1).uri
-      )
+      while (newIndex >= 0 && !songs.at(newIndex)?.hub?.actions?.at(1).uri)
         newIndex--;
 
       if (newIndex < 0) newIndex = 0;
@@ -89,7 +88,13 @@ const playerSlice = createSlice({
 });
 
 const store = configureStore({
-  reducer: playerSlice.reducer,
+  reducer: {
+    [shazamCoreApi.reducerPath]: shazamCoreApi.reducer,
+    player: playerSlice.reducer,
+  },
+
+  middleware: (getDefaultMiddleWare) =>
+    getDefaultMiddleWare().concat(shazamCoreApi.middleware),
 });
 
 export const playerSliceActions = playerSlice.actions;

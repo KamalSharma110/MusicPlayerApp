@@ -13,18 +13,19 @@ const SeekBar = (props) => {
   const currentTime = getMinutesSeconds(props.currentTime);
 
   return (
-    <div className="d-flex justify-content-between text-white">
-      <span>{currentTime}</span>
+    <div className="d-sm-flex justify-content-between text-white">
       <input
         ref={ref}
         type="range"
-        className="w-75"
+        className="d-block mx-auto"
+        style={{width: 'min(364px, 100%)'}}
         value={Math.ceil(props.currentTime)}
         min="0"
         max={Math.ceil(props.duration)}
         onChange={() => document.getElementById('audio').currentTime = ref.current.value}
-      />
-      <span>{getMinutesSeconds(props.duration)}</span>
+        />
+        <span style={{order: '-1'}}>{currentTime}</span>
+      <span className="float-end">{getMinutesSeconds(props.duration)}</span>
     </div>
   );
 };

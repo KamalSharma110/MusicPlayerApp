@@ -1,48 +1,26 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
+import { useGetRelatedSongsQuery } from "../services/shazamCore";
+
 import TopPlayCard from "./TopPlayCard";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const RelatedSongs = ({id : songId}) => {
-  const currentSongs = useSelector(state => state.currentSongs);
+  const currentSongs = useSelector(state => state.player.currentSongs);
   const dispatch = useDispatch();
-  
+
+  const { data, isFetching, error } = useGetRelatedSongsQuery(songId);
+
   useEffect(() => {
-    const fetchRelatedSongs = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/tracks/related?track_id=${songId}`,
-        options
-      );
-
-      const data = await response.json();
-      localStorage.setItem(`relatedSongs_${songId}`, JSON.stringify(data));
-      dispatch(
-        playerSliceActions.setCurrentSongs(
-          data.map((item, index) => ({ ...item, index }))
-        )
-      );
-    };
-
-    const relatedSongsData = JSON.parse(
-      localStorage.getItem(`relatedSongs_${songId}`)
-    );
-
-    if (!relatedSongsData) fetchRelatedSongs();
-    else dispatch(
+    dispatch(
       playerSliceActions.setCurrentSongs(
-        relatedSongsData.map((item, index) => ({ ...item, index }))
+        data?.map((item, index) => ({ ...item, index }))
       )
     );
-  }, [songId, dispatch]);
+  }, [dispatch, data]);
+
 
   return (
     <div>
@@ -51,7 +29,9 @@ const RelatedSongs = ({id : songId}) => {
       className="list-group list-group-numbered"
       onClick={() => dispatch(playerSliceActions.toggleWidgetActive(false))}
       >
-        {currentSongs.map((relatedSong) => (
+        {isFetching && <Loader title='Loading Related Songs...'/>}
+        {error && <Error />}
+        {currentSongs?.map((relatedSong) => (
           <TopPlayCard song={relatedSong} key={relatedSong.key} />
         ))}
       </ol>

@@ -3,28 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
+import { playerSliceActions } from "../store/store";
+import { useGetWorldChartsQuery } from "../services/shazamCore";
 import TopPlayCard from "./TopPlayCard";
 
 import "swiper/css";
 import "swiper/css/free-mode";
-import { playerSliceActions } from "../store/store";
+import classes from "./TopPlay.module.css";
 
 const TopPlay = () => {
-  const widgetSongs = useSelector((state) => state.widgetSongs);
+  const widgetSongs = useSelector(state => state.player.widgetSongs);
   const dispatch = useDispatch();
   const history = useHistory();
 
+  let { data } = useGetWorldChartsQuery();
+
+  
   useEffect(() => {
-    let globalChartsData = JSON.parse(localStorage.getItem("globalChartsData"));
-
-    globalChartsData = globalChartsData.slice(0, 5);
-
     dispatch(
       playerSliceActions.setWidgetSongs(
-        globalChartsData?.map((item, index) => ({ ...item, index }))
+        data?.map((item, index) => ({ ...item, index })).slice(0, 5)
       )
     );
-  }, [dispatch]);
+  }, [dispatch, data]);
 
   const getSongs = (songRequested) => {
     const arr = [];
@@ -44,14 +45,12 @@ const TopPlay = () => {
             <img
               src={widgetSongs[i].images.background}
               alt="name"
-              className="rounded-circle"
-              width="100px"
+              className={`rounded-circle ${classes["artist-images"]}`}
               onClick={() =>
                 history.push(
                   `/artist-details/${widgetSongs[i].artists[0].adamid}`
                 )
               }
-              style={{ cursor: "pointer" }}
             />
           </SwiperSlide>
         );
@@ -60,29 +59,38 @@ const TopPlay = () => {
   };
 
   return (
-    <section className="text-white col-12 col-lg-3 position-fixed top-0 end-0">
-      <div className="mt-3">
-        <h4>Top Charts</h4>
-        <ol
-          className="list-group list-group-numbered"
-          onClick={() => dispatch(playerSliceActions.toggleWidgetActive(true))}
+    <section
+      className={`text-white mt-4 mt-sm-3 col-12 col-lg-4 col-xl-3 animate-left ${classes["top-play"]}`}
+    >
+      <div className="row justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-12">
+          <h4 className="ms-3">Top Charts</h4>
+          <ol
+            className="list-group list-group-numbered"
+            onClick={() =>
+              dispatch(playerSliceActions.toggleWidgetActive(true))
+            }
+          >
+            {getSongs(true)}
+          </ol>
+        </div>
+        <div
+          className="mt-3 col-12 col-sm-5 col-lg-12"
+          style={{ overflow: "hidden" }}
         >
-          {getSongs(true)}
-        </ol>
-      </div>
-      <div className="mt-3">
-        <h4>Top Artists</h4>
-        <Swiper
-          slidesPerView="auto"
-          spaceBetween={15}
-          freeMode
-          centeredSlides
-          centeredSlidesBounds
-          modules={[FreeMode]}
-          className="mt-4"
-        >
-          {getSongs(false)}
-        </Swiper>
+          <h4>Top Artists</h4>
+          <Swiper
+            slidesPerView="auto"
+            spaceBetween={15}
+            freeMode
+            centeredSlides
+            centeredSlidesBounds
+            modules={[FreeMode]}
+            className={`mt-4`}
+          >
+            {getSongs(false)}
+          </Swiper>
+        </div>
       </div>
     </section>
   );

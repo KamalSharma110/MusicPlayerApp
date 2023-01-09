@@ -1,5 +1,15 @@
-.track img{
+.track{
+    display: flex;
+    align-items: center;
+}
+
+.track-playing img{
     animation: spin linear infinite 4s;
+}
+
+.track div{
+    display: inline-block;
+    width: 55%;
 }
 
 @keyframes spin {
@@ -11,3 +21,4 @@
         transform: rotateZ(360deg);
     }
 }
+
