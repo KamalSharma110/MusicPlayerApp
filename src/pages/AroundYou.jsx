@@ -4,7 +4,7 @@ import { playerSliceActions } from "../store/store";
 
 import SongCard from "../components/SongCard.jsx";
 
-let countryName = "";
+let countryName;
 const AroundYou = () => {
   const [countryCode, setCountryCode] = useState(null);
   const currentSongs = useSelector(state => state.currentSongs);
@@ -27,7 +27,8 @@ const AroundYou = () => {
         options
       );
       const data = await response.json();
-      countryName = data.country?.name;
+      
+      if(!countryName) countryName = data.country?.name;
       setCountryCode(data.country?.code);
     };
 
@@ -76,7 +77,7 @@ const AroundYou = () => {
   return (
     <section className="col-12 col-lg-7 mt-4">
       <h4 className="row text-white text-center my-3">
-        {`Around You ${countryCode ? "(" + countryName + ")" : ""}`}
+        {`Around You ${countryName ? "(" + countryName + ")" : ""}`}
       </h4>
 
       <div className="row g-4">

@@ -21,8 +21,9 @@ const TopPlayCard = (props) => {
       <img
         src={props.song.images?.coverart}
         alt="song_img"
-        className="rounded mx-2"
-        width="60px"
+        className="rounded mx-2 img-fluid"
+        // width="60px"
+        style={{maxWidth: '60px'}}
       />
       <div className="w-50">
         <SongInfo songData={props.song}/>

@@ -71,7 +71,7 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className="d-none d-lg-block">
+      <div className={`d-none d-lg-block ${classes['nav-container']}`}>
         <Nav />
       </div>
     </div>

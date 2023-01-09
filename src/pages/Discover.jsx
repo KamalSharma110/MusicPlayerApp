@@ -88,12 +88,12 @@ const Discover = () => {
   };
 
   return (
-    <section className="col-12 col-lg-7 mt-4">
+    <section className="col-12 col-lg-6 col-xl-7 mt-4">
       <div className="row">
         <SearchBar />
       </div>
 
-      <div className="row justify-content-sm-between justify-content-center align-items-center">
+      <div className="mb-3 row justify-content-sm-between justify-content-center align-items-center">
         <h4 className="col-12 col-sm-auto text-white text-center my-3">
           Discover
         </h4>
