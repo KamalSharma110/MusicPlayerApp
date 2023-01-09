@@ -11,6 +11,7 @@ import ArtistDetails from "./pages/ArtistDetails";
 import Search from './pages/Search.jsx';
 
 function App() {
+
   return (
     <div className="App container-fluid">
       <div className="row">
@@ -18,7 +19,7 @@ function App() {
 
         <Switch>
           <Route path="/" exact>
-            <Discover />
+            <Redirect to='/discover' />
           </Route>
           <Route path="/discover">
             <Discover />

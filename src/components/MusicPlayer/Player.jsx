@@ -11,7 +11,10 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState(null);
 
   return (
-    <div className={`row fixed-bottom ${classes.player}`}>
+    <div
+      id="player"
+      className={`row fixed-bottom ${classes.player} animate-up`}
+    >
       <Track />
       <div className="col-4 d-flex flex-column">
         <Controls />

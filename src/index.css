@@ -25,7 +25,8 @@ i{
   transition: all .2s;
 }
 
-i:hover{
+
+.hover:hover, i:hover{
   color: lightgray;
 }
 
@@ -57,5 +58,26 @@ input[type="range"]{
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.animate-left{
+  animation: anim2 linear .7s;
+}
+
+@keyframes anim2 {
+  0%{
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  50%{
+    opacity: 1;
+    transform: translateX(25px);
+  }
+
+  100%{
+    opacity: 1;
+    transform: translateX(0);
   }
 }

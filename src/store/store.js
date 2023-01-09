@@ -23,6 +23,8 @@ const playerSlice = createSlice({
     },
 
     setActiveSong(state, action) {
+      document.getElementById('player').style.display = 'flex';
+        
       state.activeSong = action.payload;
       state.currentIndex = action.payload.index;
       state.isPlaying = true;

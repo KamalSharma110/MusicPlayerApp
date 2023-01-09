@@ -60,7 +60,7 @@ const TopPlay = () => {
   };
 
   return (
-    <section className="text-white col-12 col-lg-3 position-fixed top-0 end-0">
+    <section className="text-white col-12 col-lg-3 position-fixed top-0 end-0 animate-left">
       <div className="mt-3">
         <h4>Top Charts</h4>
         <ol

@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import SongInfo from '../SongInfo.jsx';
 import classes from './Track.module.css';
 
 const Track = () => {
@@ -14,8 +15,7 @@ const Track = () => {
         style={{width: `${activeSong ? '80px':'0px'}`}}
       />
       <div className="text-white ms-3">
-        <p className="mb-0 fw-semibold truncate">{activeSong.title}</p>
-        <small className="truncate d-block">{activeSong.subtitle}</small>
+      <SongInfo songData = {activeSong}/>
       </div>
     </div>
   );

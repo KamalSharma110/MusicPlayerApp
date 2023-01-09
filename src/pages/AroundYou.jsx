@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
 
-import SongCard from '../components/SongCard.jsx';
+import SongCard from "../components/SongCard.jsx";
 
+let countryName = "";
 const AroundYou = () => {
   const [countryCode, setCountryCode] = useState(null);
-  const [countryChartsData, setCountryChartsData] = useState([]);
+  const currentSongs = useSelector(state => state.currentSongs);
   const dispatch = useDispatch();
 
-  dispatch(playerSliceActions.setCurrentSongs(countryChartsData));
-
+  
   useEffect(() => {
     const fetchCountryCode = async () => {
       const options = {
@@ -27,11 +27,13 @@ const AroundYou = () => {
         options
       );
       const data = await response.json();
+      countryName = data.country?.name;
       setCountryCode(data.country?.code);
     };
 
     fetchCountryCode();
   }, []);
+
 
   useEffect(() => {
     const fetchChartsByCountry = async () => {
@@ -51,7 +53,11 @@ const AroundYou = () => {
       const data = await response.json();
       localStorage.setItem("indianChartsData", JSON.stringify(data));
 
-      setCountryChartsData(data.map((item, index) => ({ ...item, index })));
+      dispatch(
+        playerSliceActions.setCurrentSongs(
+          data.map((item, index) => ({ ...item, index }))
+        )
+      );
     };
 
     const indianChartsData = JSON.parse(
@@ -60,19 +66,21 @@ const AroundYou = () => {
 
     if (!indianChartsData && countryCode) fetchChartsByCountry();
 
-    setCountryChartsData(
-      indianChartsData?.map((item, index) => ({ ...item, index }))
+    dispatch(
+      playerSliceActions.setCurrentSongs(
+        indianChartsData.map((item, index) => ({ ...item, index }))
+      )
     );
-  }, [countryCode]);
+  }, [countryCode, dispatch]);
 
   return (
     <section className="col-12 col-lg-7 mt-4">
       <h4 className="row text-white text-center my-3">
-        Around You
+        {`Around You ${countryCode ? "(" + countryName + ")" : ""}`}
       </h4>
 
       <div className="row g-4">
-        {countryChartsData?.map((item) => {
+        {currentSongs.map((item) => {
           if (!item.artists) return "";
 
           return (

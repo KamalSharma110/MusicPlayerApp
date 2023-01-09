@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect} from "react";
 import classes from "./DetailsHeader.module.css";
 
 const DetailsHeader = ({ details }) => {
   const { trackadamid: songId } = details;
 
   useEffect(() => {
+
     if (!songId)
       document.getElementById("artistBio").innerHTML =
         details.data[0].attributes.artistBio;

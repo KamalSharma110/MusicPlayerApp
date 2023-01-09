@@ -1,16 +1,15 @@
 import { genres } from "../constants.js";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SongCard from "../components/SongCard";
-import SearchBar from '../components/SearchBar';
+import SearchBar from "../components/SearchBar";
 import { playerSliceActions } from "../store/store";
 
 const Discover = () => {
+  const currentSongs = useSelector(state => state.currentSongs);
   const dispatch = useDispatch();
-  const [discoverData, setDiscoverData] = useState([]);
   const [genre, setGenre] = useState("All");
-  
-  dispatch(playerSliceActions.setCurrentSongs(discoverData));
+
 
   useEffect(() => {
     const fetchWorldCharts = async () => {
@@ -30,7 +29,11 @@ const Discover = () => {
       const data = await response.json();
       localStorage.setItem("globalChartsData", JSON.stringify(data));
 
-      setDiscoverData(data.map((item, index) => ({ ...item, index })));
+      dispatch(
+        playerSliceActions.setCurrentSongs(
+          data.map((item, index) => ({ ...item, index }))
+        )
+      );
     };
 
     const globalChartsData = JSON.parse(
@@ -39,10 +42,12 @@ const Discover = () => {
 
     if (!globalChartsData) fetchWorldCharts();
 
-    setDiscoverData(
-      globalChartsData?.map((item, index) => ({ ...item, index }))
+    dispatch(
+      playerSliceActions.setCurrentSongs(
+        globalChartsData.map((item, index) => ({ ...item, index }))
+      )
     );
-  }, [setDiscoverData]);
+  }, [dispatch]);
 
   const genreClickHandler = async (event) => {
     event.preventDefault();
@@ -74,8 +79,12 @@ const Discover = () => {
       localStorage.setItem(`genreCharts_${genreCode}`, JSON.stringify(data));
     }
 
-    setDiscoverData(data.map((item, index) => ({ ...item, index })));
-    setGenre(event.target.textContent);
+    dispatch(
+      playerSliceActions.setCurrentSongs(
+        data.map((item, index) => ({ ...item, index }))
+      )
+    );
+      setGenre(event.target.textContent);
   };
 
   return (
@@ -103,7 +112,7 @@ const Discover = () => {
             onClick={(event) => genreClickHandler(event)}
           >
             {genres.map((genre, index) => (
-              <li key={'g' + index}>
+              <li key={"g" + index}>
                 <a href="/" className="dropdown-item" data-value={genre.value}>
                   {genre.title}
                 </a>
@@ -114,7 +123,7 @@ const Discover = () => {
       </div>
 
       <div className="row g-4">
-        {discoverData?.map((item) => {
+        {currentSongs?.map((item) => {
           if (!item.artists) return "";
 
           return (
