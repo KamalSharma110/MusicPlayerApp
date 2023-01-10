@@ -60,7 +60,7 @@ const TopPlay = () => {
 
   return (
     <section
-      className={`text-white col-12 col-lg-4 col-xl-3 animate-left ${classes["top-play"]}`}
+      className={`text-white mt-4 mt-sm-3 col-12 col-lg-4 col-xl-3 animate-left ${classes["top-play"]}`}
     >
       <div className="row justify-content-between">
         <div className="col-12 col-sm-6 col-lg-12">
@@ -86,7 +86,7 @@ const TopPlay = () => {
             centeredSlides
             centeredSlidesBounds
             modules={[FreeMode]}
-            className={`mt-4 ${classes.swiper}`}
+            className={`mt-4`}
           >
             {getSongs(false)}
           </Swiper>

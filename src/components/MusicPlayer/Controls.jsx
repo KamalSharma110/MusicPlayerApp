@@ -23,9 +23,9 @@ const Controls = () => {
   const handleShuffle = () => dispatch(playerSliceActions.toggleShuffling());
 
   return (
-    <div className="d-flex justify-content-evenly align-items-center px-3">
+    <div className="d-flex justify-content-evenly align-items-center">
       <i
-        className={`bi bi-repeat${isLooping ? "-1" : ""} fs-5`}
+        className={`bi bi-repeat${isLooping ? "-1" : ""} fs-4`}
         onClick={() => {
           document.getElementById("audio").loop = !isLooping;
           setIsLooping(!isLooping);
@@ -44,7 +44,7 @@ const Controls = () => {
       <i className="bi bi-skip-end-fill fs-3" onClick={handleNextSong}></i>
 
       <i
-        className={`bi bi-shuffle fs-5 ${isShuffling ? "text-primary" : ""}`}
+        className={`bi bi-shuffle fs-4 ${isShuffling ? "text-primary" : ""}`}
         onClick={handleShuffle}
       ></i>
     </div>

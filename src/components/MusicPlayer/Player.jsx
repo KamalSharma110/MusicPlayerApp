@@ -13,10 +13,10 @@ const Player = () => {
   return (
     <div
       id="player"
-      className={`row fixed-bottom ${classes.player} animate-up`}
+      className={`row gx-0 px-2 px-md-4 px-lg-5 fixed-bottom ${classes.player} animate-up`}
     >
       <Track />
-      <div className="col-4 d-flex flex-column">
+      <div className="col-6 justify-content-center col-md-4 d-flex flex-column">
         <Controls />
         <SeekBar duration={duration} currentTime={currentTime} />
       </div>

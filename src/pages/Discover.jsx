@@ -122,7 +122,7 @@ const Discover = () => {
         </div>
       </div>
 
-      <div className="row g-4">
+      <div className="row g-2 g-sm-3 g-md-4">
         {currentSongs?.map((item) => {
           if (!item.artists) return "";
 

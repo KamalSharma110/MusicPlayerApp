@@ -22,7 +22,7 @@ const SongCard = (props) => {
   return (
     <div className="col-6 col-sm-4 col-md-3 col-lg-6 col-xl-3 animate-up">
       <div
-        className="rounded p-3 text-white bg-white"
+        className="rounded p-1 p-sm-2 p-lg-3 text-white bg-white"
         style={{ "--bs-bg-opacity": "0.1" }}
       >
         <div className={classes["image-container"]} onClick={handleClick}>
@@ -43,7 +43,7 @@ const SongCard = (props) => {
 
         <SongInfo songData={props.songData}/>
       </div>
-    </div>
+     </div>
   );
 };
 

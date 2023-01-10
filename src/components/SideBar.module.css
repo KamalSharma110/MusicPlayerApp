@@ -3,38 +3,48 @@
   backdrop-filter: blur(7px);
 }
 
-.offcanvas-background button{
-    filter: invert(1);
+.offcanvas-background button {
+  filter: invert(1);
 }
 
-.nav-container{
-    position: fixed;
-    width: 15vw;
+.nav-container {
+  position: fixed;
+  width: 15vw;
 }
 
-.text-gray{
-    color: lightgray;
+.text-gray {
+  color: lightgray;
 }
 
 .text-gray:hover,
 .text-gray:focus,
-.active{
-    color: cyan;
+.active {
+  color: cyan;
 }
 
-.text-gray i{
-    color: inherit;
+.text-gray i {
+  color: inherit;
 }
 
+.background>button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
 
-@media (min-width: 992px){
+.background>button>i{
+  text-shadow: 2px 2px 4px black;
+}
+
+@media (min-width: 992px) {
+  .background {
+    background-color: #1a1525;
+  }
+}
+
+@media (max-width: 992px) {
     .background{
-        background-color: #1a1525;
+        height: 55px;
     }
 }
-
-
-
-
-
-

@@ -51,7 +51,7 @@ const SideBar = () => {
         data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasExample"
       >
-        <i className="bi bi-list fs-2"></i>
+        <i className="bi bi-list text-white fs-1"></i>
       </button>
 
       <div
