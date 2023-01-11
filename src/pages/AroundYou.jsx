@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
 
@@ -9,9 +9,12 @@ const AroundYou = () => {
   const [countryCode, setCountryCode] = useState(null);
   const currentSongs = useSelector(state => state.currentSongs);
   const dispatch = useDispatch();
+  const ref = useRef();
 
   
   useEffect(() => {
+    ref.current?.scrollIntoView({behavior: 'smooth'});
+
     const fetchCountryCode = async () => {
       const options = {
         method: "GET",
@@ -75,12 +78,12 @@ const AroundYou = () => {
   }, [countryCode, dispatch]);
 
   return (
-    <section className="col-12 col-lg-7 mt-4">
-      <h4 className="row text-white text-center my-3">
+    <section className="col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4" ref={ref}>
+      <h4 className="text-white text-center text-sm-start my-3">
         {`Around You ${countryName ? "(" + countryName + ")" : ""}`}
       </h4>
 
-      <div className="row g-4">
+      <div className="row g-2 g-sm-3 g-md-4">
         {currentSongs.map((item) => {
           if (!item.artists) return "";
 

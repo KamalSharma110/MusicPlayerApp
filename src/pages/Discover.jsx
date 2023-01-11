@@ -1,5 +1,5 @@
 import { genres } from "../constants.js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SongCard from "../components/SongCard";
 import SearchBar from "../components/SearchBar";
@@ -8,10 +8,13 @@ import { playerSliceActions } from "../store/store";
 const Discover = () => {
   const currentSongs = useSelector(state => state.currentSongs);
   const dispatch = useDispatch();
+  const ref = useRef();
   const [genre, setGenre] = useState("All");
 
 
   useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+
     const fetchWorldCharts = async () => {
       const options = {
         method: "GET",
@@ -88,8 +91,8 @@ const Discover = () => {
   };
 
   return (
-    <section className="col-12 col-lg-6 col-xl-7 mt-4">
-      <div className="row">
+    <section className="col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4" ref={ref}>
+      <div className="row mt-3 mt-lg-0">
         <SearchBar />
       </div>
 

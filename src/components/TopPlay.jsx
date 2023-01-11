@@ -4,11 +4,11 @@ import { useHistory } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
 import TopPlayCard from "./TopPlayCard";
-import classes from "./TopPlay.module.css";
+import { playerSliceActions } from "../store/store";
 
 import "swiper/css";
 import "swiper/css/free-mode";
-import { playerSliceActions } from "../store/store";
+import classes from "./TopPlay.module.css";
 
 const TopPlay = () => {
   const widgetSongs = useSelector((state) => state.widgetSongs);

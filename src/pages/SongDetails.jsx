@@ -44,7 +44,7 @@ const SongDetails = () => {
 
   return (
     <section
-      className="text-white col-12 col-lg-7"
+      className="text-white col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4"
       style={{ paddingTop: "5rem" }}
       ref={ref}
     >

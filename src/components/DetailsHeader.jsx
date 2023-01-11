@@ -1,11 +1,10 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import classes from "./DetailsHeader.module.css";
 
 const DetailsHeader = ({ details }) => {
   const { trackadamid: songId } = details;
 
   useEffect(() => {
-
     if (!songId)
       document.getElementById("artistBio").innerHTML =
         details.data[0].attributes.artistBio;
@@ -13,9 +12,9 @@ const DetailsHeader = ({ details }) => {
 
   return (
     <div
-      className={`row text-white position-relative ${classes["track-details"]}`}
+      className={`row text-white justify-content-center position-relative ${classes["track-details"]}`}
     >
-      <div className="col-3">
+      <div className="col-12 col-xl-3" style={{ maxWidth: "250px" }}>
         <img
           src={
             songId
@@ -26,7 +25,7 @@ const DetailsHeader = ({ details }) => {
           className="rounded-circle img-thumbnail"
         />
       </div>
-      <div className="col-9 d-flex flex-column justify-content-center">
+      <div className="col-12 col-xl-9 d-flex flex-column justify-content-center text-center text-xl-start">
         <p className="truncate fw-semibold mb-0 fs-4">
           {songId ? details.title : details.data[0].attributes.name}
         </p>

@@ -17,5 +17,10 @@
     .artist-images{
         width: 120px;
     }
+}
 
+@media (max-width: 450px){
+    .artist-images{
+        width: 100px;
+    }
 }
