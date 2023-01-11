@@ -11,7 +11,7 @@ import "swiper/css/free-mode";
 import classes from "./TopPlay.module.css";
 
 const TopPlay = () => {
-  const widgetSongs = useSelector((state) => state.widgetSongs);
+  const widgetSongs = useSelector((state) => state.player.widgetSongs);
   const dispatch = useDispatch();
   const history = useHistory();
 

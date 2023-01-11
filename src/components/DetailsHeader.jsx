@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import classes from "./DetailsHeader.module.css";
 
 const DetailsHeader = ({ details }) => {
@@ -29,13 +30,20 @@ const DetailsHeader = ({ details }) => {
         <p className="truncate fw-semibold mb-0 fs-4">
           {songId ? details.title : details.data[0].attributes.name}
         </p>
-        <small
-          className={`truncate d-block ${
-            songId ? "fw-light" : "fw-semibold"
-          } fs-6`}
-        >
-          {songId ? details.subtitle : details.data[0].attributes.origin}
-        </small>
+        {songId ? (
+          <Link
+            className="hover"
+            to={`/artist-details/${details.artists?.at(0).adamid}`}
+          >
+            <small className='truncate d-block fw-light fs-6'>
+              {details.subtitle}
+            </small>
+          </Link>
+        ) : (
+          <small className='truncate d-block fw-semibold fs-6'>
+            {details.data[0].attributes.origin}
+          </small>
+        )}
         <small
           id="artistBio"
           className={`fw-light fs-6 ${songId ? "" : "mt-4"}`}

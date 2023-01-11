@@ -3,8 +3,8 @@ import SongInfo from "../SongInfo.jsx";
 import classes from "./Track.module.css";
 
 const Track = () => {
-  const activeSong = useSelector((state) => state.activeSong);
-  const isPlaying = useSelector((state) => state.isPlaying);
+  const activeSong = useSelector((state) => state.player.activeSong);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
 
   return (
     <div

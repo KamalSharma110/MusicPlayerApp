@@ -50,7 +50,7 @@ const SongDetails = () => {
     >
       {trackDetails && <DetailsHeader details={trackDetails} />}
       <h4 className="mb-4">Lyrics</h4>
-      {trackDetails?.sections[1].text.map((line, index) => (
+      {trackDetails?.sections?.at(1)?.text?.map((line, index) => (
         <p key={index} className="mb-0 fw-light">
           {line}
         </p>

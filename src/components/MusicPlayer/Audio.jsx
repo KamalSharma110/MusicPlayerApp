@@ -4,8 +4,8 @@ import { playerSliceActions } from "../../store/store";
 
 const Audio = (props) => {
   const ref = useRef();
-  const activeSong = useSelector((state) => state.activeSong);
-  const isPlaying = useSelector((state) => state.isPlaying);
+  const activeSong = useSelector((state) => state.player.activeSong);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
   const dispatch = useDispatch();
 
   if (isPlaying) ref.current?.play().catch(() => {});

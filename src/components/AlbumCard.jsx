@@ -2,7 +2,7 @@ const AlbumCard = ({ albumData }) => {
   return (
     <li
       className="list-group-item d-flex align-items-center text-white rounded-2 mb-2"
-      style={{ backgroundColor: "#4c426e", border: "none", cursor: "pointer" }}
+      style={{ backgroundColor: "#4c426e", border: "none"}}
     >
       <img
         src={albumData.artwork.url}

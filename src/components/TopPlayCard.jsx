@@ -4,8 +4,8 @@ import classes from "./TopPlayCard.module.css";
 import SongInfo from './SongInfo';
 
 const TopPlayCard = (props) => {
-  const isPlaying = useSelector((state) => state.isPlaying);
-  const activeSong = useSelector((state) => state.activeSong);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
+  const activeSong = useSelector((state) => state.player.activeSong);
   const dispatch = useDispatch();
   const isActive = activeSong.key === props.song.key;
 
