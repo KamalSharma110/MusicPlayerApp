@@ -1,97 +1,36 @@
 import { genres } from "../constants.js";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { playerSliceActions } from "../store/store";
+import { useGetChartsByGenreQuery } from "../services/shazamCore.js";
+
 import SongCard from "../components/SongCard";
 import SearchBar from "../components/SearchBar";
-import { playerSliceActions } from "../store/store";
-import { useGetWorldChartsQuery } from "../features/shazamCore.js";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const Discover = () => {
-  // const currentSongs = useSelector(state => state.currentSongs);
+  const currentSongs = useSelector(state => state.player.currentSongs);
   const dispatch = useDispatch();
   const ref = useRef();
-  const [genre, setGenre] = useState("All");
-  const {data} = useGetWorldChartsQuery();
-  console.log(data);
-
+  const [genre, setGenre] = useState({ title: "Pop", value: "POP" });
+  const { data, isFetching, error } = useGetChartsByGenreQuery(genre.value);
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
 
-    // const fetchWorldCharts = async () => {
-    //   const options = {
-    //     method: "GET",
-    //     headers: {
-    //       "X-RapidAPI-Key":
-    //         "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-    //       "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-    //     },
-    //   };
-
-    //   const response = await fetch(
-    //     "https://shazam-core.p.rapidapi.com/v1/charts/world",
-    //     options
-    //   );
-    //   const data = await response.json();
-    //   localStorage.setItem("globalChartsData", JSON.stringify(data));
-
-    //   dispatch(
-    //     playerSliceActions.setCurrentSongs(
-    //       data.map((item, index) => ({ ...item, index }))
-    //     )
-    //   );
-    // };
-
-    // const globalChartsData = JSON.parse(
-    //   localStorage.getItem("globalChartsData")
-    // );
-
-    // if (!globalChartsData) fetchWorldCharts();
-
-    // dispatch(
-    //   playerSliceActions.setCurrentSongs(
-    //     globalChartsData.map((item, index) => ({ ...item, index }))
-    //   )
-    // );
-
-  }, []);
-
-  const genreClickHandler = async (event) => {
-    event.preventDefault();
-
-    const genreCode = event.target.getAttribute("data-value");
-
-    let data = JSON.parse(
-      genreCode === "ALL"
-        ? localStorage.getItem("globalChartsData")
-        : localStorage.getItem(`genreCharts_${genreCode}`)
-    );
-
-    if (!data) {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/charts/genre-world?genre_code=${genreCode}`,
-        options
-      );
-
-      data = await response.json();
-      localStorage.setItem(`genreCharts_${genreCode}`, JSON.stringify(data));
-    }
-
     dispatch(
       playerSliceActions.setCurrentSongs(
-        data.map((item, index) => ({ ...item, index }))
+        data?.map((item, index) => ({ ...item, index }))
       )
     );
-      setGenre(event.target.textContent);
+  }, [dispatch, data]);
+
+
+  const genreClickHandler = (event) => {
+    event.preventDefault();
+    const genreCode = event.target.getAttribute("data-value");
+    setGenre({ title: event.target.textContent, value: genreCode });
   };
 
   return (
@@ -111,7 +50,7 @@ const Discover = () => {
             data-bs-toggle="dropdown"
             className="btn btn-dark dropdown-toggle"
           >
-            {genre} &nbsp; &nbsp;
+            {genre.title} &nbsp; &nbsp;
           </button>
           <ul
             className="dropdown-menu"
@@ -130,7 +69,9 @@ const Discover = () => {
       </div>
 
       <div className="row g-2 g-sm-3 g-md-4">
-        {data?.map((item) => {
+        {isFetching && <Loader/>}
+        {error && <Error/>}
+        {currentSongs?.map((item) => {
           if (!item.artists) return "";
 
           return (

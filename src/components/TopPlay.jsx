@@ -3,29 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
-import TopPlayCard from "./TopPlayCard";
 import { playerSliceActions } from "../store/store";
+import { useGetWorldChartsQuery } from "../services/shazamCore";
+import TopPlayCard from "./TopPlayCard";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import classes from "./TopPlay.module.css";
 
 const TopPlay = () => {
-  const widgetSongs = useSelector((state) => state.player.widgetSongs);
+  const widgetSongs = useSelector(state => state.player.widgetSongs);
   const dispatch = useDispatch();
   const history = useHistory();
 
+  let { data } = useGetWorldChartsQuery();
+
+  
   useEffect(() => {
-    let globalChartsData = JSON.parse(localStorage.getItem("globalChartsData"));
-
-    globalChartsData = globalChartsData.slice(0, 5);
-
     dispatch(
       playerSliceActions.setWidgetSongs(
-        globalChartsData?.map((item, index) => ({ ...item, index }))
+        data?.map((item, index) => ({ ...item, index })).slice(0, 5)
       )
     );
-  }, [dispatch]);
+  }, [dispatch, data]);
 
   const getSongs = (songRequested) => {
     const arr = [];

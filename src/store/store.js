@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-import { shazamCoreApi } from "../features/shazamCore";
+import { shazamCoreApi } from "../services/shazamCore";
 
 const initialState = {
   isPlaying: false,
@@ -25,7 +25,6 @@ const playerSlice = createSlice({
 
     setActiveSong(state, action) {
       document.getElementById("player").style.display = "flex";
-
       state.activeSong = action.payload;
       state.currentIndex = action.payload.index;
       state.isPlaying = true;

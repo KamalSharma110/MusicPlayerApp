@@ -1,46 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGetSongDetailsQuery } from "../services/shazamCore";
+
 import DetailsHeader from "../components/DetailsHeader";
 import RelatedSongs from "../components/RelatedSongs";
+
 
 const SongDetails = () => {
   const params = useParams();
   const ref = useRef();
   const [trackDetails, setTrackDetails] = useState(null);
 
+  const { data } = useGetSongDetailsQuery(params.songId);
+
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
+    
+    setTrackDetails(data);
+  }, [data]);
 
-    const fetchSongDetails = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/tracks/details?track_id=${params.songId}`,
-        options
-      );
-
-      const data = await response.json();
-      localStorage.setItem(
-        `songDetailsData_${params.songId}`,
-        JSON.stringify(data)
-      );
-      setTrackDetails(data); // need this call here also
-    };
-
-    const songDetailsData = JSON.parse(
-      localStorage.getItem(`songDetailsData_${params.songId}`)
-    );
-
-    if (!songDetailsData) fetchSongDetails();
-    else setTrackDetails(songDetailsData);
-  }, [params.songId]);
 
   return (
     <section

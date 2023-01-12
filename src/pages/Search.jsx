@@ -1,53 +1,31 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import SearchBar from "../components/SearchBar";
-import SongCard from "../components/SongCard";
+import { useGetSearchedSongsQuery } from "../services/shazamCore";
 import { playerSliceActions } from "../store/store";
 
+import SearchBar from "../components/SearchBar";
+import SongCard from "../components/SongCard";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
+
 const Search = () => {
+  const currentSongs = useSelector(state => state.player.currentSongs);
   const params = useParams();
-  //   const [searchResults, setSearchResults] = useState([]);
-  const currentSongs = useSelector((state) => state.currentSongs);
   const dispatch = useDispatch();
 
+  const { data, isFetching, error } = useGetSearchedSongsQuery(
+    params.searchTerm
+  );
+
   useEffect(() => {
-    const search = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
+    dispatch(
+      playerSliceActions.setCurrentSongs(
+        data?.tracks.hits.map((item, index) => ({ ...item.track, index }))
+      )
+    );
+  }, [data, dispatch]);
 
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/search/multi?search_type=SONGS_ARTISTS&query=${params.searchTerm}`,
-        options
-      );
-
-      const data = await response.json();
-
-      localStorage.setItem(`${params.searchTerm}`, JSON.stringify(data));
-
-      dispatch(
-        playerSliceActions.setCurrentSongs(
-          data.tracks.hits.map((item, index) => ({ ...item.track, index }))
-        )
-      );
-    };
-
-    const searchData = JSON.parse(localStorage.getItem(`${params.searchTerm}`));
-
-    if (!searchData) search();
-    else
-      dispatch(
-        playerSliceActions.setCurrentSongs(
-          searchData.tracks.hits.map((item, index) => ({ ...item.track, index }))
-        )
-      );
-  }, [params.searchTerm, dispatch]);
 
   return (
     <section className="col-12 col-lg-7 mt-4">
@@ -62,6 +40,8 @@ const Search = () => {
       </div>
 
       <div className="row g-4">
+        {isFetching && <Loader title='Loading Search Results...'/>}
+        {error && <Error />}
         {currentSongs?.map((item) => {
           if (!item.artists) return "";
 

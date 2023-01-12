@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../../store/store.js";
 
 const Controls = () => {
-  const isPlaying = useSelector((state) => state.isPlaying);
-  const isShuffling = useSelector((state) => state.isShuffling);
+  const isPlaying = useSelector((state) => state.player.isPlaying);
+  const isShuffling = useSelector((state) => state.player.isShuffling);
   const dispatch = useDispatch();
   const [isLooping, setIsLooping] = useState(false);
 

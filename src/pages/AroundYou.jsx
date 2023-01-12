@@ -1,19 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
+import { useGetChartsByCountryQuery } from "../services/shazamCore";
 
 import SongCard from "../components/SongCard.jsx";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 let countryName;
 const AroundYou = () => {
+  const currentSongs = useSelector(state => state.player.currentSongs);
   const [countryCode, setCountryCode] = useState(null);
-  const currentSongs = useSelector(state => state.currentSongs);
   const dispatch = useDispatch();
   const ref = useRef();
 
-  
+  const { data, isFetching, error } = useGetChartsByCountryQuery(
+    countryCode || "IN"
+  ); //this hook will not be executed on every re-render because redux cache the api calls and 
+  //thus useEffect will not run on every re-render even though it has 'data' as its dependency
+
   useEffect(() => {
-    ref.current?.scrollIntoView({behavior: 'smooth'});
+    ref.current?.scrollIntoView({ behavior: "smooth" });
 
     const fetchCountryCode = async () => {
       const options = {
@@ -30,52 +37,20 @@ const AroundYou = () => {
         options
       );
       const data = await response.json();
-      
-      if(!countryName) countryName = data.country?.name;
+
+      if (!countryName) countryName = data.country?.name;
       setCountryCode(data.country?.code);
     };
 
     fetchCountryCode();
-  }, []);
-
-
-  useEffect(() => {
-    const fetchChartsByCountry = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v1/charts/country?country_code=${countryCode}`,
-        options
-      );
-      const data = await response.json();
-      localStorage.setItem("indianChartsData", JSON.stringify(data));
-
-      dispatch(
-        playerSliceActions.setCurrentSongs(
-          data.map((item, index) => ({ ...item, index }))
-        )
-      );
-    };
-
-    const indianChartsData = JSON.parse(
-      localStorage.getItem("indianChartsData")
-    );
-
-    if (!indianChartsData && countryCode) fetchChartsByCountry();
 
     dispatch(
       playerSliceActions.setCurrentSongs(
-        indianChartsData.map((item, index) => ({ ...item, index }))
+        data?.map((item, index) => ({ ...item, index }))
       )
     );
-  }, [countryCode, dispatch]);
+  }, [dispatch, data]);
+
 
   return (
     <section className="col-12 col-lg-6 col-xl-7 mt-5 mt-lg-4" ref={ref}>
@@ -84,7 +59,9 @@ const AroundYou = () => {
       </h4>
 
       <div className="row g-2 g-sm-3 g-md-4">
-        {currentSongs.map((item) => {
+        {isFetching && <Loader title="Loading Top Songs Around You..." />}
+        {error && <Error />}
+        {currentSongs?.map((item) => {
           if (!item.artists) return "";
 
           return (
