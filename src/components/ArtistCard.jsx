@@ -11,11 +11,18 @@ const ArtistCard = ({ artistName, imageUrl, artistId }) => {
     col-xl-3 text-center text-white animate-up"
     >
       <img
+        loading='lazy'
         src={imageUrl}
         alt=""
         className="rounded-circle w-75"
-        style={{ cursor: "pointer", maxWidth: '150px' }}
+        style={{
+          cursor: "pointer",
+          maxWidth: "150px",
+          maxHeight: "150px",
+          objectFit: "cover",
+        }}
         onClick={clickHandler}
+        onLoad={(e) => {e.target.style.visibility = 'visible';}}
       />
       <p
         className={`mb-0 mt-1 fw-semibold truncate mx-auto`}

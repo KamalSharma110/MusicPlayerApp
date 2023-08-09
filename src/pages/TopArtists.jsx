@@ -1,34 +1,35 @@
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { useGetTopArtistsQuery } from "../services/spotify";
+
 import ArtistCard from "../components/ArtistCard";
-import { useGetWorldChartsQuery } from "../services/shazamCore";
 import Loader from '../components/Loader';
 import Error from '../components/Error';
 
 const TopArtists = () => {
   const ref = useRef();
-  const { data, isFetching, error } = useGetWorldChartsQuery();
+  const artistIds = useSelector(state => state.player.artistIds);
+  const { data, isFetching, error } = useGetTopArtistsQuery(artistIds, {skip: !artistIds});
 
   useEffect(() => ref.current?.scrollIntoView({ behavior: "smooth" }), []);
 
-  const mapArtists = (song, index) => {
-    if (!song.images) return "";
+  const mapArtists = (artist, index) => {
 
-    const res = data?.findIndex((currentSong) => {
-      if (!currentSong.artists) return false;
-      return currentSong.artists[0].adamid === song.artists[0].adamid;
+    const res = data?.artists.findIndex((currentArtist) => {
+      return currentArtist.id === artist.id;
     });
 
     if (res < index) return "";
 
-    let i = song.subtitle.search(/[&,]/);
-    if (i === -1) i = song.subtitle.length;
+    let i = artist.name.search(/[&,]/);
+    if (i === -1) i = artist.name.length;
 
     return (
       <ArtistCard
-        key={song.artists[0].adamid}
-        artistId={song.artists[0].adamid}
-        artistName={song.subtitle.substring(0, i)}
-        imageUrl={song.images.background}
+        key={artist.id}
+        artistId={artist.id}
+        artistName={artist.name.substring(0, i)}
+        imageUrl={artist.images[2].url}
       />
     );
   };
@@ -39,7 +40,7 @@ const TopArtists = () => {
       <div className="row g-2 g-sm-3 g-md-4">
         {isFetching && <Loader title='Loading Top Artists...'/>}
         {error && <Error />}
-        {data?.map((song, index) => mapArtists(song, index))}
+        {data?.artists[0] !== null && data?.artists.map((artist, index) => mapArtists(artist, index))}
       </div>
     </section>
   );

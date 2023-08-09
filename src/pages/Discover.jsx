@@ -2,7 +2,7 @@ import { genres } from "../constants.js";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
-import { useGetChartsByGenreQuery } from "../services/shazamCore.js";
+import { useGetSongsByGenreQuery } from "../services/spotify.js";
 
 import SongCard from "../components/SongCard";
 import SearchBar from "../components/SearchBar";
@@ -10,22 +10,17 @@ import Loader from "../components/Loader";
 import Error from "../components/Error";
 
 const Discover = () => {
-  const currentSongs = useSelector(state => state.player.currentSongs);
+  const currentSongs = useSelector((state) => state.player.currentSongs);
   const dispatch = useDispatch();
   const ref = useRef();
-  const [genre, setGenre] = useState({ title: "Pop", value: "POP" });
-  const { data, isFetching, error } = useGetChartsByGenreQuery(genre.value);
+  const [genre, setGenre] = useState(genres[0]);
 
+  const { data, isFetching, error } = useGetSongsByGenreQuery(genre.value);
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
 
-    dispatch(
-      playerSliceActions.setCurrentSongs(
-        data?.map((item, index) => ({ ...item, index }))
-      )
-    );
+    dispatch(playerSliceActions.setCurrentSongs(data?.tracks));
   }, [dispatch, data]);
-
 
   const genreClickHandler = (event) => {
     event.preventDefault();
@@ -69,18 +64,14 @@ const Discover = () => {
       </div>
 
       <div className="row g-2 g-sm-3 g-md-4">
-        {isFetching && <Loader/>}
-        {error && <Error/>}
-        {currentSongs?.map((item) => {
-          if (!item.artists) return "";
-
+        {isFetching && <Loader />}
+        {error && <Error />}
+        {currentSongs?.map((song) => {
           return (
             <SongCard
-              key={item.key}
-              title={item.title}
-              subtitle={item.subtitle}
-              image={item.images?.coverart}
-              songData={item}
+              key={song.id}
+              image={song.image}
+              songData={song}
             />
           );
         })}

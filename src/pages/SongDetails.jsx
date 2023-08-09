@@ -1,24 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useGetSongDetailsQuery } from "../services/shazamCore";
 
+import { useGetSongDetailsQuery } from "../services/spotify";
 import DetailsHeader from "../components/DetailsHeader";
 import RelatedSongs from "../components/RelatedSongs";
-
+import Loader from "../components/Loader";
+import Error from "../components/Error";
+import { useGetSongLyricsQuery } from "../services/spotifyRapidApi";
 
 const SongDetails = () => {
   const params = useParams();
   const ref = useRef();
-  const [trackDetails, setTrackDetails] = useState(null);
 
-  const { data } = useGetSongDetailsQuery(params.songId);
+  const { data, isFetching, error } = useGetSongDetailsQuery(params.songId);
+
+  const {data: lyricsData, isFetching: isFetchingLyrics, error: lyricsError} = useGetSongLyricsQuery(params.songId);
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    
-    setTrackDetails(data);
   }, [data]);
-
 
   return (
     <section
@@ -26,14 +26,20 @@ const SongDetails = () => {
       style={{ paddingTop: "5rem" }}
       ref={ref}
     >
-      {trackDetails && <DetailsHeader details={trackDetails} />}
-      <h4 className="mb-4">Lyrics</h4>
-      {trackDetails?.sections?.at(1)?.text?.map((line, index) => (
-        <p key={index} className="mb-0 fw-light">
-          {line}
-        </p>
-      ))}
-      <RelatedSongs id={params.songId} />
+      {(isFetching || isFetchingLyrics) && <Loader />}
+      {(error || lyricsError) && <Error />}
+      {data && lyricsData && (
+        <>
+          <DetailsHeader songDetails={data} />
+          <h4 className="mb-4">Lyrics</h4>
+          {lyricsData?.lyrics.lines.map((line, index) => (
+            <p key={index} className="mb-0 fw-light">
+              {line.words}
+            </p>
+          ))}
+          <RelatedSongs id={params.songId} />
+        </>
+      )}
     </section>
   );
 };

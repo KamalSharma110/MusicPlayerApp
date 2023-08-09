@@ -16,7 +16,7 @@ const SearchBar = () => {
       <label htmlFor="search">
         <i className="bi bi-search"></i>
       </label>
-      <input type="search" id="search" placeholder="Search" ref={ref} />
+      <input type="text" id="search" placeholder="Search" autoComplete="off" ref={ref} />
     </form>
   );
 };

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useGetSearchedSongsQuery } from "../services/shazamCore";
-import { playerSliceActions } from "../store/store";
 
+import { useGetSearchedSongsQuery } from "../services/spotify";
+import { playerSliceActions } from "../store/store";
 import SearchBar from "../components/SearchBar";
 import SongCard from "../components/SongCard";
 import Loader from "../components/Loader";
@@ -21,7 +21,7 @@ const Search = () => {
   useEffect(() => {
     dispatch(
       playerSliceActions.setCurrentSongs(
-        data?.tracks.hits.map((item, index) => ({ ...item.track, index }))
+        data?.tracks.items
       )
     );
   }, [data, dispatch]);
@@ -35,7 +35,7 @@ const Search = () => {
 
       <div className="row justify-content-sm-between justify-content-center align-items-center">
         <h4 className="col-12 col-sm-auto text-white text-center my-3">
-          Search Results for {params.searchTerm}
+          Search Results for "{params.searchTerm}"
         </h4>
       </div>
 
@@ -43,14 +43,10 @@ const Search = () => {
         {isFetching && <Loader title='Loading Search Results...'/>}
         {error && <Error />}
         {currentSongs?.map((item) => {
-          if (!item.artists) return "";
-
           return (
             <SongCard
-              key={item.key}
-              title={item.title}
-              subtitle={item.subtitle}
-              image={item.images?.coverart}
+              key={item.id}
+              image={item.image}
               songData={item}
             />
           );

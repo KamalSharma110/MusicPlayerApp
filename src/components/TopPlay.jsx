@@ -3,57 +3,62 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
-import { playerSliceActions } from "../store/store";
-import { useGetWorldChartsQuery } from "../services/shazamCore";
-import TopPlayCard from "./TopPlayCard";
 
+import { playerSliceActions } from "../store/store";
+import {
+  useGetTopArtistsQuery,
+  useGetTopChartsQuery,
+} from "../services/spotify";
+import TopPlayCard from "./TopPlayCard";
+import classes from "./TopPlay.module.css";
 import "swiper/css";
 import "swiper/css/free-mode";
-import classes from "./TopPlay.module.css";
 
 const TopPlay = () => {
-  const widgetSongs = useSelector(state => state.player.widgetSongs);
+  const widgetSongs = useSelector((state) => state.player.widgetSongs);
+  const artistIds = useSelector((state) => state.player.artistIds);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let { data } = useGetWorldChartsQuery();
+  const { data: artistData } = useGetTopArtistsQuery(artistIds, {skip: !artistIds});
+  const { data: songData } = useGetTopChartsQuery();
 
-  
   useEffect(() => {
-    dispatch(
-      playerSliceActions.setWidgetSongs(
-        data?.map((item, index) => ({ ...item, index })).slice(0, 5)
-      )
-    );
-  }, [dispatch, data]);
+    dispatch(playerSliceActions.setWidgetSongs(songData?.tracks));
+  }, [dispatch, songData]);
 
   const getSongs = (songRequested) => {
+    const artists = artistData?.artists;
+    if (!artists?.at(0) || !widgetSongs?.length) return;
     const arr = [];
-    for (let i = 0; i < widgetSongs?.length; i++) {
-      if (!widgetSongs[i].artists) continue;
-      if (songRequested === true)
-        arr.push(
-          <TopPlayCard song={widgetSongs[i]} key={widgetSongs[i].key} />
-        );
-      else
+    const end = songRequested ? widgetSongs.length : artists.length;
+
+    for (let i = 0; i < end; i++) {
+      if (songRequested) {
+        arr.push(<TopPlayCard song={widgetSongs[i]} key={widgetSongs[i].id} />);
+      } else {
+        if(arr.length === 5) break;
+        const res = artists.findIndex((artist) => {
+          return artists[i].id === artist.id;
+        });
+        if (res < i) continue;
         arr.push(
           <SwiperSlide
-            key={widgetSongs[i].key}
+            key={artists[i].id}
             style={{ width: "25%", height: "auto" }}
             className="rounded-circle animate-slideright"
           >
             <img
-              src={widgetSongs[i].images.background}
-              alt="name"
+              loading="lazy"
+              src={artists[i].images[2].url}
+              alt=""
               className={`rounded-circle ${classes["artist-images"]}`}
-              onClick={() =>
-                history.push(
-                  `/artist-details/${widgetSongs[i].artists[0].adamid}`
-                )
-              }
+              onClick={() => history.push(`/artist-details/${artists[i].id}`)}
+              onLoad={(e) => {e.target.style.visibility = 'visible';}}
             />
           </SwiperSlide>
         );
+      }
     }
     return arr;
   };
@@ -97,3 +102,5 @@ const TopPlay = () => {
 };
 
 export default TopPlay;
+//very good place to use memo to prevent re evaluation because top play is not receiving any props
+//but app.js will not re render it anyway because of react-router-dom package

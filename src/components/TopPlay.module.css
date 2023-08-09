@@ -6,6 +6,8 @@
 
 .artist-images{
     width: 100px;
+    aspect-ratio: 1;
+    object-fit: cover;
     cursor: pointer;
 }
 

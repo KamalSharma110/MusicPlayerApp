@@ -1,62 +1,38 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import AlbumCard from "../components/AlbumCard";
 import DetailsHeader from "../components/DetailsHeader";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import {
+  useGetArtistAlbumsQuery,
+  useGetArtistDetailsQuery,
+} from "../services/spotify";
+import { useGetArtistBioQuery } from "../services/spotifyRapidApi";
+
 
 const ArtistDetails = () => {
   const params = useParams();
   const ref = useRef();
-  const [artistDetails, setArtistDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+    ref.current?.scrollIntoView({behavior: 'smooth'});
+  }, [ref]);
 
-    const fetchArtistDetails = async () => {
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key":
-            "8687aad68cmsh68a2c535dcda472p199339jsne35acd458307",
-          "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
-        },
-      };
-      setIsLoading(true);
-      const response = await fetch(
-        `https://shazam-core.p.rapidapi.com/v2/artists/details?artist_id=${params.artistId}`,
-        options
-      );
+  const {
+    data: artistDetails,
+    isFetching: isFetchingDetails,
+    error: detailsError,
+  } = useGetArtistDetailsQuery(params.artistId);
 
-      const data = await response.json();
-      setIsLoading(false);
-      setArtistDetails(data);
-    };
+  const {
+    data: artistAlbums,
+    isFetching,
+    error,
+  } = useGetArtistAlbumsQuery(params.artistId);
 
-    fetchArtistDetails();
-  }, [params.artistId]);
-
-  let res = <Loader title="Loading Artist Details..." />;
-
-  if (artistDetails && !artistDetails.data) res = <Error />;
-
-  if (!isLoading && artistDetails && artistDetails.data)
-    res = (
-      <React.Fragment>
-        <DetailsHeader details={artistDetails} />
-        <div>
-          <h4 className="mb-4 mt-5">Related Songs</h4>
-          <ol className="list-group list-group-numbered">
-            {artistDetails?.data
-              ?.at(0)
-              ?.views["top-songs"]?.data?.map((dataItem) => (
-                <AlbumCard albumData={dataItem.attributes} key={dataItem.id} />
-              ))}
-          </ol>
-        </div>
-      </React.Fragment>
-    );
+  const {data: bioData, isFetching: isFetchingBio, error: bioError} = useGetArtistBioQuery(params.artistId);
 
   return (
     <section
@@ -64,7 +40,26 @@ const ArtistDetails = () => {
       style={{ marginTop: "5rem" }}
       ref={ref}
     >
-      {res}
+      {(isFetching || isFetchingDetails || isFetchingBio) && <Loader />}
+      {(error || detailsError || bioError) && <Error />}
+      {artistAlbums && artistDetails && bioData && (
+        <>
+          <DetailsHeader artistDetails={artistDetails} bio={bioData?.data.artist.profile.biography.text}/>
+          <div>
+            <h4 className="mb-4 mt-5">Related Songs</h4>
+            <ol className="list-group list-group-numbered">
+              {artistAlbums?.items.map((album) => (
+                <AlbumCard
+                  image={album.images[0].url}
+                  name={album.name}
+                  key={album.id}
+                  releaseDate={album.release_date}
+                />
+              ))}
+            </ol>
+          </div>
+        </>
+      )}
     </section>
   );
 };

@@ -1,5 +1,7 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-import { shazamCoreApi } from "../services/shazamCore";
+import { spotifyApi } from "../services/spotify";
+import { setSongs } from "../utils/utils";
+import { spotifyRapidApi } from "../services/spotifyRapidApi";
 
 const initialState = {
   isPlaying: false,
@@ -9,6 +11,7 @@ const initialState = {
   currentSongs: [],
   widgetSongs: [],
   activeSong: {},
+  artistIds: '',
 };
 
 const playerSlice = createSlice({
@@ -25,17 +28,18 @@ const playerSlice = createSlice({
 
     setActiveSong(state, action) {
       document.getElementById("player").style.display = "flex";
+      document.getElementsByTagName('body')[0].style.paddingBottom = '100px';
       state.activeSong = action.payload;
       state.currentIndex = action.payload.index;
       state.isPlaying = true;
     },
 
     setCurrentSongs(state, action) {
-      state.currentSongs = action.payload;
+      state.currentSongs = setSongs(action.payload);
     },
 
     setWidgetSongs(state, action) {
-      state.widgetSongs = action.payload;
+      state.widgetSongs = setSongs(action.payload)?.slice(0, 5);
     },
 
     toggleWidgetActive(state, action) {
@@ -50,9 +54,6 @@ const playerSlice = createSlice({
       let newIndex = state.isShuffling
         ? Math.floor(Math.random() * state.currentIndex)
         : state.currentIndex - 1;
-
-      while (newIndex >= 0 && !songs.at(newIndex)?.hub?.actions?.at(1).uri)
-        newIndex--;
 
       if (newIndex < 0) newIndex = 0;
 
@@ -72,29 +73,28 @@ const playerSlice = createSlice({
           Math.floor(Math.random() * (songs.length - state.currentIndex))
         : state.currentIndex + 1;
 
-      while (
-        newIndex < songs.length &&
-        !songs.at(newIndex)?.hub?.actions?.at(1).uri
-      )
-        newIndex++;
-
       if (newIndex >= songs.length) newIndex = songs.length - 1;
 
       playerSlice.caseReducers.setActiveSong(state, {
         payload: songs[newIndex],
       });
     },
+
+    setArtistIds(state, action){
+      state.artistIds = action.payload?.substring(0, action.payload.length - 1);
+    }
   },
 });
 
 const store = configureStore({
   reducer: {
-    [shazamCoreApi.reducerPath]: shazamCoreApi.reducer,
+    [spotifyApi.reducerPath]: spotifyApi.reducer,
+    [spotifyRapidApi.reducerPath]: spotifyRapidApi.reducer,
     player: playerSlice.reducer,
   },
 
   middleware: (getDefaultMiddleWare) =>
-    getDefaultMiddleWare().concat(shazamCoreApi.middleware),
+    getDefaultMiddleWare().concat(spotifyApi.middleware, spotifyRapidApi.middleware),
 });
 
 export const playerSliceActions = playerSlice.actions;

@@ -3,15 +3,15 @@ import { playerSliceActions } from "../store/store";
 import classes from "./TopPlayCard.module.css";
 import SongInfo from './SongInfo';
 
-const TopPlayCard = (props) => {
+const TopPlayCard = ({song}) => {
   const isPlaying = useSelector((state) => state.player.isPlaying);
   const activeSong = useSelector((state) => state.player.activeSong);
   const dispatch = useDispatch();
-  const isActive = activeSong.key === props.song.key;
+  const isActive = activeSong.id === song.id;
 
   const handleClick = () => {
     if (isActive) dispatch(playerSliceActions.playPause());
-    else dispatch(playerSliceActions.setActiveSong(props.song));
+    else dispatch(playerSliceActions.setActiveSong(song));
   };
 
   return (
@@ -19,14 +19,16 @@ const TopPlayCard = (props) => {
       className={`list-group-item d-flex align-items-center text-white rounded-2 ${classes["top-play-card"]}`}
     >
       <img
-        src={props.song.images?.coverart}
+        loading="lazy"
+        src={song.image}
         alt="song_img"
         className="rounded mx-2 img-fluid"
         // width="60px"
         style={{maxWidth: '60px'}}
+        onLoad={(e) => {e.target.style.visibility = 'visible';}}
       />
       <div className="w-50">
-        <SongInfo songData={props.song}/>
+        <SongInfo songData={song}/>
       </div>
       <i
         className={`bi bi-${

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerSliceActions } from "../store/store";
-import { useGetRelatedSongsQuery } from "../services/shazamCore";
+import { useGetRelatedSongsQuery } from "../services/spotify";
 
 import TopPlayCard from "./TopPlayCard";
 import Loader from "../components/Loader";
@@ -16,7 +16,7 @@ const RelatedSongs = ({id : songId}) => {
   useEffect(() => {
     dispatch(
       playerSliceActions.setCurrentSongs(
-        data?.map((item, index) => ({ ...item, index }))
+        data?.tracks.map((item, index) => ({ ...item, index }))
       )
     );
   }, [dispatch, data]);
@@ -32,7 +32,7 @@ const RelatedSongs = ({id : songId}) => {
         {isFetching && <Loader title='Loading Related Songs...'/>}
         {error && <Error />}
         {currentSongs?.map((relatedSong) => (
-          <TopPlayCard song={relatedSong} key={relatedSong.key} />
+          <TopPlayCard song={relatedSong} key={relatedSong.id} />
         ))}
       </ol>
     </div>

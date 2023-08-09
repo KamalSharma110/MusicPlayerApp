@@ -1,5 +1,6 @@
 .image-container {
   position: relative;
+  aspect-ratio: 1;
 }
 
 .icon_default {

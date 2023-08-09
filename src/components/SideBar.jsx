@@ -6,7 +6,7 @@ const Nav = () => {
   return (
     <ul className="nav flex-column">
       <li className="nav-item my-5">
-        <img src={logo} alt="" className="d-block mx-auto img-fluid" />
+        <img src={logo} alt="" className="d-block mx-auto img-fluid" style={{visibility: 'visible'}}/>
       </li>
       <li className="nav-item mb-3">
         <NavLink
@@ -22,10 +22,10 @@ const Nav = () => {
         <NavLink
           activeClassName={classes.active}
           className={`nav-link ${classes["text-gray"]}`}
-          to="/aroundYou"
+          to="/topSongs"
         >
-          <i className="bi bi-image me-2"></i>
-          Around You
+          <i className="bi bi-music-note me-2"></i>
+          Top Songs
         </NavLink>
       </li>
       <li className="nav-item mb-3">
@@ -44,7 +44,7 @@ const Nav = () => {
 
 const SideBar = () => {
   return (
-    <div className={`col-auto col-lg-2 ${classes.background}`}>
+    <div id="sidebar" className={`col-auto col-lg-2 ${classes.background}`}>
       <button
         className={`btn d-lg-none`}
         type="button"

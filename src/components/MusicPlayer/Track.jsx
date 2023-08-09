@@ -13,10 +13,11 @@ const Track = () => {
       }`}
     >
       <img
-        src={activeSong.images?.coverart}
+        src={activeSong.image}
         alt=""
         className="rounded-circle img-fluid"
         style={{ width: `${activeSong ? "80px" : "0px"}` }}
+        onLoad={(e) => e.target.style.visibility = 'visible'}
       />
       <div className="text-white ms-3 d-none d-md-block">
         <SongInfo songData={activeSong} />

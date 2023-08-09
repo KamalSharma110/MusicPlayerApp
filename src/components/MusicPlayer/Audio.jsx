@@ -14,7 +14,7 @@ const Audio = (props) => {
   return (
     <audio
       id="audio"
-      src={activeSong.hub?.actions?.at(1).uri}
+      src={activeSong.preview_url}
       ref={ref}
       onLoadedData={() => props.onLoadedData(ref.current?.duration)} //this will help to show the duration of the current song
       onTimeUpdate={() => props.onTimeUpdate(ref.current?.currentTime)} //this will help to show the elapsed time of the current song

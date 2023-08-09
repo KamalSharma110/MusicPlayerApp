@@ -9,7 +9,7 @@ const SongCard = (props) => {
   const isPlaying = useSelector((state) => state.player.isPlaying);
   const activeSong = useSelector((state) => state.player.activeSong);
   const dispatch = useDispatch();
-  const isActive = activeSong.key === props.songData.key;
+  const isActive = activeSong.id === props.songData.id;
   const isActiveAndPlaying = isPlaying && isActive;
 
   const handleClick = () => {
@@ -19,6 +19,8 @@ const SongCard = (props) => {
     else dispatch(playerSliceActions.setActiveSong(props.songData));
   };
 
+
+
   return (
     <div className="col-6 col-sm-4 col-md-3 col-lg-6 col-xl-3 animate-up">
       <div
@@ -27,13 +29,14 @@ const SongCard = (props) => {
       >
         <div className={classes["image-container"]} onClick={handleClick}>
           <img
+            loading="lazy"
             src={props.image}
             alt="song_img"
             className={`img-fluid ${
               isActiveAndPlaying ? classes["img_active"] : ""
             }`}
+            onLoad={(e) => {e.target.style.visibility = 'visible';}}
           />
-
           <i
             className={`${classes["icon_default"]} bi bi-${
               isActiveAndPlaying ? "pause" : "play"

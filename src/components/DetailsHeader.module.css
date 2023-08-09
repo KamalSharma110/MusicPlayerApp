@@ -11,3 +11,8 @@
     bottom: 40%;
     z-index: -100;
 }
+
+.track-details img{
+    aspect-ratio: 1;
+    object-fit: cover;
+}
