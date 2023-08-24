@@ -1,30 +1,30 @@
 {
   "files": {
-    "main.css": "/MusicPlayerApp/static/css/main.0e60990c.css",
-    "main.js": "/MusicPlayerApp/static/js/main.daf2d86f.js",
-    "static/css/87.c933162c.chunk.css": "/MusicPlayerApp/static/css/87.c933162c.chunk.css",
-    "static/js/87.330d2878.chunk.js": "/MusicPlayerApp/static/js/87.330d2878.chunk.js",
-    "static/js/392.9565467c.chunk.js": "/MusicPlayerApp/static/js/392.9565467c.chunk.js",
-    "static/js/337.e80bd934.chunk.js": "/MusicPlayerApp/static/js/337.e80bd934.chunk.js",
-    "static/css/10.dd4aab15.chunk.css": "/MusicPlayerApp/static/css/10.dd4aab15.chunk.css",
-    "static/js/10.1a5abd5b.chunk.js": "/MusicPlayerApp/static/js/10.1a5abd5b.chunk.js",
-    "static/css/336.dd4aab15.chunk.css": "/MusicPlayerApp/static/css/336.dd4aab15.chunk.css",
-    "static/js/336.70b4ed32.chunk.js": "/MusicPlayerApp/static/js/336.70b4ed32.chunk.js",
+    "main.css": "/MusicPlayerApp/static/css/main.5fcefed1.css",
+    "main.js": "/MusicPlayerApp/static/js/main.ae6e5012.js",
+    "static/css/87.061f4cb4.chunk.css": "/MusicPlayerApp/static/css/87.061f4cb4.chunk.css",
+    "static/js/87.66d26325.chunk.js": "/MusicPlayerApp/static/js/87.66d26325.chunk.js",
+    "static/js/493.3ee860f4.chunk.js": "/MusicPlayerApp/static/js/493.3ee860f4.chunk.js",
+    "static/js/337.44fc9c75.chunk.js": "/MusicPlayerApp/static/js/337.44fc9c75.chunk.js",
+    "static/css/10.d8fc8c9d.chunk.css": "/MusicPlayerApp/static/css/10.d8fc8c9d.chunk.css",
+    "static/js/10.69d8abd3.chunk.js": "/MusicPlayerApp/static/js/10.69d8abd3.chunk.js",
+    "static/css/336.d8fc8c9d.chunk.css": "/MusicPlayerApp/static/css/336.d8fc8c9d.chunk.css",
+    "static/js/336.0c3bc735.chunk.js": "/MusicPlayerApp/static/js/336.0c3bc735.chunk.js",
     "static/media/loader.svg": "/MusicPlayerApp/static/media/loader.b6e62932d9a09a37205ac7eecdf828d6.svg",
     "index.html": "/MusicPlayerApp/index.html",
-    "main.0e60990c.css.map": "/MusicPlayerApp/static/css/main.0e60990c.css.map",
-    "main.daf2d86f.js.map": "/MusicPlayerApp/static/js/main.daf2d86f.js.map",
-    "87.c933162c.chunk.css.map": "/MusicPlayerApp/static/css/87.c933162c.chunk.css.map",
-    "87.330d2878.chunk.js.map": "/MusicPlayerApp/static/js/87.330d2878.chunk.js.map",
-    "392.9565467c.chunk.js.map": "/MusicPlayerApp/static/js/392.9565467c.chunk.js.map",
-    "337.e80bd934.chunk.js.map": "/MusicPlayerApp/static/js/337.e80bd934.chunk.js.map",
-    "10.dd4aab15.chunk.css.map": "/MusicPlayerApp/static/css/10.dd4aab15.chunk.css.map",
-    "10.1a5abd5b.chunk.js.map": "/MusicPlayerApp/static/js/10.1a5abd5b.chunk.js.map",
-    "336.dd4aab15.chunk.css.map": "/MusicPlayerApp/static/css/336.dd4aab15.chunk.css.map",
-    "336.70b4ed32.chunk.js.map": "/MusicPlayerApp/static/js/336.70b4ed32.chunk.js.map"
+    "main.5fcefed1.css.map": "/MusicPlayerApp/static/css/main.5fcefed1.css.map",
+    "main.ae6e5012.js.map": "/MusicPlayerApp/static/js/main.ae6e5012.js.map",
+    "87.061f4cb4.chunk.css.map": "/MusicPlayerApp/static/css/87.061f4cb4.chunk.css.map",
+    "87.66d26325.chunk.js.map": "/MusicPlayerApp/static/js/87.66d26325.chunk.js.map",
+    "493.3ee860f4.chunk.js.map": "/MusicPlayerApp/static/js/493.3ee860f4.chunk.js.map",
+    "337.44fc9c75.chunk.js.map": "/MusicPlayerApp/static/js/337.44fc9c75.chunk.js.map",
+    "10.d8fc8c9d.chunk.css.map": "/MusicPlayerApp/static/css/10.d8fc8c9d.chunk.css.map",
+    "10.69d8abd3.chunk.js.map": "/MusicPlayerApp/static/js/10.69d8abd3.chunk.js.map",
+    "336.d8fc8c9d.chunk.css.map": "/MusicPlayerApp/static/css/336.d8fc8c9d.chunk.css.map",
+    "336.0c3bc735.chunk.js.map": "/MusicPlayerApp/static/js/336.0c3bc735.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e60990c.css",
-    "static/js/main.daf2d86f.js"
+    "static/css/main.5fcefed1.css",
+    "static/js/main.ae6e5012.js"
   ]
 }
